@@ -32,10 +32,6 @@
 #define OFF 0
 #define ON 1
 
-#define RED 4
-#define GREEN 16
-#define BLUE 17
-#define MAX 255
 
 // variables for the bluetooth server and hid device
 BLEHIDDevice* hid;
@@ -160,43 +156,7 @@ void loop() {
     pAdvertising->start();
     connect_wait();
   }  
-  
-
-    BLEScanResults scanResults = pBLEScan->start(1);
-
-    // Print the results
-    uint8_t count = scanResults.getCount();
- 
-    // Serial.println("Device connected...");
-    // std::map<uint16_t, conn_status_t> devices = pServer->getPeerDevices(false);
-    // BLEClient* client = (BLEClient*)devices[0].peer_device;
-
-  // Iterate through the results and display information
-  for (uint16_t i = 0; i < count; i++) {
-        BLEAdvertisedDevice device = scanResults.getDevice(i);
-        
-
-        if(str_equals(mac, device.getAddress().toString().c_str())){
-            rssi = device.getRSSI();
-            break;
-        }
-
-  }
-    Serial.println(rssi);
-    if(rssi > -80){
-        digitalWrite(LED,ON);
-        lamp(ON);
-        led_timer = 0;
-    } else{
-        led_timer++;
-    }
-
-    if(led_timer>= 3){
-        digitalWrite(LED,OFF);
-        lamp(OFF);
-        led_timer = 0;
-    }
-
+    digitalWrite(LED,ON);
 
     // std::map<uint16_t, conn_status_t> devices = pServer->getPeerDevices(false);
 
