@@ -46,8 +46,6 @@ bool connected = false;
 
 
 
-void rgb_lamp(void* args);
-void lamp(const uint8_t new_state);
 inline void connect_wait();
 bool str_equals(const char* str1, const char* str2);
 
@@ -152,17 +150,10 @@ void setup() {
 void loop() {
 
   if(!connected){
-    lamp(OFF);
     pAdvertising->start();
     connect_wait();
   }  
     digitalWrite(LED,ON);
 
-    // std::map<uint16_t, conn_status_t> devices = pServer->getPeerDevices(false);
-
-    // for(const auto& pair: devices){
-    //     //Serial.println((int)((BLEClient*)pair.second.peer_device)->getConnId());
-    //     //Serial.println(((BLEClient*)pair.second.peer_device)->getRssi());
-    //     Serial.printf("%i\n",((BLEClient*)pair.second.peer_device)->getRssi());
-    // }
+  vTaskDelay(5/portTICK_PERIOD_MS);
 }
