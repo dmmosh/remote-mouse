@@ -66,6 +66,4 @@ void loop() {
     }  
     move(10,10);
     vTaskDelay(20/portTICK_PERIOD_MS);
-    move();
-    vTaskDelay(20/portTICK_PERIOD_MS);
 }
