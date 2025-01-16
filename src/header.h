@@ -39,13 +39,13 @@
 #define MOUSE_ID 0x03
 
 // variables for the bluetooth server and hid device
-BLEHIDDevice* hid;
-BLECharacteristic* input;
-BLECharacteristic* output;
-BLEAdvertising *pAdvertising;
-BLEServer *pServer;
-BLEScan* pBLEScan;
-bool connected = false;
+extern BLEHIDDevice* hid;
+extern BLECharacteristic* input;
+extern BLECharacteristic* output;
+extern BLEAdvertising *pAdvertising;
+extern BLEServer *pServer;
+extern BLEScan* pBLEScan;
+extern bool connected = false;
 
 
 inline void connect_wait();
