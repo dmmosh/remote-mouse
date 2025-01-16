@@ -125,12 +125,13 @@ void loop() {
     }
 
   
-    if (x || y || click){
-      uint8_t packet3[] = {click,(int8_t)x,(int8_t)y}; // click , x, y, wheel, xwheel
-      if(connected)
-          input->setValue(packet3, sizeof(packet3));
-      if(connected)
-          input->notify();
+    if (x || y){
+      move(click,x,y);
+        
+      if(click){
+        vTaskDelay(20/portTICK_PERIOD_MS);
+        move();
+      }
     }
     
 

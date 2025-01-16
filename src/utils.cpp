@@ -1,8 +1,8 @@
 #include "header.h"
 
 
-void move(uint8_t x , uint8_t y, uint8_t xwheel, uint8_t ywheel){
-    uint8_t packet[] = {0,x,y,xwheel,ywheel};
+void move(uint8_t click,uint8_t x , uint8_t y){
+    uint8_t packet[] = {click,x,y};
     if(connected)
         input->setValue(packet, sizeof(packet));
     if(connected)
