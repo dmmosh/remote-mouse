@@ -16,11 +16,14 @@ void setup() {
     Serial.begin(115200);
     Serial.println("Starting BLE work!");
     pinMode(LED,OUTPUT);
+    digitalWrite(LED,ON);
+
     BLEDevice::init("Remote Mouse");
-    BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
+
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT, ESP_PWR_LVL_P9); 
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_ADV, ESP_PWR_LVL_P9);
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_SCAN ,ESP_PWR_LVL_P9);
+    BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
     pServer = BLEDevice::createServer();
     pServer->setCallbacks(new MyCallbacks());
     pServer->getPeerDevices(false);
@@ -36,6 +39,8 @@ void setup() {
     BLESecurity *pSecurity = new BLESecurity();
     pSecurity->setAuthenticationMode(ESP_LE_AUTH_BOND);
 
+    hid->reportMap((uint8_t*)mouse_report_desc,sizeof(mouse_report_desc));
+
     hid->startServices();
 
     pAdvertising = pServer->getAdvertising();
@@ -47,10 +52,9 @@ void setup() {
     pBLEScan->setActiveScan(true);  // Set active scan to get more information (e.g., RSSI)
     pBLEScan->setInterval(100);     // Set scan interval (in milliseconds)
     pBLEScan->setWindow(99);        // Set scan window (in milliseconds)
-    digitalWrite(LED,ON);
     
     hid->setBatteryLevel(100);
-
+  
 
 
     //ESP_LOGD(LOG_TAG, "Advertising started!");
@@ -65,5 +69,5 @@ void loop() {
       connect_wait();
     }  
     move(10,10);
-    vTaskDelay(100/portTICK_PERIOD_MS);
+    vTaskDelay(20/portTICK_PERIOD_MS);
 }

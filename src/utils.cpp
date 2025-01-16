@@ -3,9 +3,11 @@
 
 void move(uint8_t x , uint8_t y, uint8_t xwheel, uint8_t ywheel){
     uint8_t packet[] = {0,x,y,xwheel,ywheel};
-    input->setValue(packet, 5);
+    input->setValue(packet, sizeof(packet));
     input->notify();
 }
+
+
 
  void connect_wait(){
     uint16_t ms_5  = 0;
