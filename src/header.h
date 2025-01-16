@@ -58,7 +58,7 @@ extern BLEServer *pServer;
 extern BLEScan* pBLEScan;
 extern bool connected;
 
-extern const uint8_t _hidReportDescriptor[];
+extern const uint8_t mouse_report_desc[];
 
 
 void connect_wait();

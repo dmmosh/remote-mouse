@@ -10,7 +10,7 @@ bool connected =false;
 
 
 // HID Report Descriptor (for Mouse)
-const uint8_t _hidReportDescriptor[] = {
+const uint8_t mouse_report_desc[] = {
   USAGE_PAGE(1),       0x01, // USAGE_PAGE (Generic Desktop)
   USAGE(1),            0x02, // USAGE (Mouse)
   COLLECTION(1),       0x01, // COLLECTION (Application)
