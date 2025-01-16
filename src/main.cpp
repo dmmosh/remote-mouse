@@ -114,7 +114,7 @@ void loop() {
     bool click = analogRead(SW);
 
 
-    uint8_t packet[] = {0,x,y,0,0}; // click , x, y, wheel, xwheel
+    uint8_t packet[] = {0,(int8_t)x,(int8_t)y,0,0}; // click , x, y, wheel, xwheel
     if(connected)
         input->setValue(packet, sizeof(packet));
     if(connected)
