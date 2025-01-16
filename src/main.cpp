@@ -102,6 +102,9 @@ void setup() {
 }
 
 
+int x = 0;
+int y = 0;
+uint8_t click = 0;
 void loop() {
 
     if(!connected){
@@ -109,9 +112,14 @@ void loop() {
       connect_wait();
     }  
     digitalWrite(LED,ON);
-    int x = 21-analogRead(VRX)/128; // 2750 / 64 = 42
-    int y = 21-analogRead(VRY)/128; // 2730 / 64 = 42
-    uint8_t click = !digitalRead(SW);
+    x = 21-analogRead(VRX)/128; // 2750 / 64 = 42
+    y = 21-analogRead(VRY)/128; // 2730 / 64 = 42
+
+    if(!click){
+      click = !digitalRead(SW);
+    } else {
+      click = 0;
+    }
     
     if(abs(x)>10) x/=2;
     if(abs(y)>10) y/=2;
@@ -127,11 +135,6 @@ void loop() {
   
     if (x || y){
       move(click,x,y);
-        
-      if(click){
-        vTaskDelay(20/portTICK_PERIOD_MS);
-        move();
-      }
     }
     
 
