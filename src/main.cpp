@@ -130,7 +130,7 @@ void loop() {
     }
 
   
-    if (x || y){
+    if (x || y || click){
       move(click,x,y);
     }
     
