@@ -62,8 +62,8 @@ void loop() {
     }  
       digitalWrite(LED,ON);
       uint8_t m[5];
-      m[0] = 0;
-      m[1] = MOUSE_LEFT; // x 
+      m[0] = MOUSE_LEFT;
+      m[1] = 0; // x 
       m[2] = 0; // y
       m[3] = 0; // wheel
       m[4] = 0; // horizontal wheel
