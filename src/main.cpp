@@ -36,7 +36,6 @@ void setup() {
     BLESecurity *pSecurity = new BLESecurity();
     pSecurity->setAuthenticationMode(ESP_LE_AUTH_BOND);
 
-    hid->reportMap((uint8_t*)desktop_descriptor, sizeof(desktop_descriptor));
     hid->startServices();
 
     pAdvertising = pServer->getAdvertising();
