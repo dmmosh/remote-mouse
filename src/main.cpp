@@ -49,6 +49,7 @@ void setup() {
     pBLEScan->setWindow(99);        // Set scan window (in milliseconds)
     digitalWrite(LED,ON);
     
+    hid->setBatteryLevel(100);
 
     //ESP_LOGD(LOG_TAG, "Advertising started!");
     //delay(portMAX_DELAY);
@@ -63,14 +64,10 @@ void loop() {
     }  
       uint8_t m[5];
       m[0] = 0;
-      m[1] = 20; // x 
-      m[2] = 20; // y
-      m[3] = 0; // wheel
-      m[4] = 0; // horizontal wheel
+      m[1] = 0; // x 
+      m[2] = 0; // y
+      m[3] = 1; // wheel
+      m[4] = 1; // horizontal wheel
     input->setValue(m, 5);
     input->notify();
-    hid->setBatteryLevel(5);
-    vTaskDelay(10/portTICK_PERIOD_MS);
-    hid->setBatteryLevel(100);
-    vTaskDelay(10/portTICK_PERIOD_MS);
 }
