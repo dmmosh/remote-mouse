@@ -110,8 +110,8 @@ void loop() {
       connect_wait();
     }  
     digitalWrite(LED,ON);
-    int x = (2750-analogRead(VRX))/12;
-    int y = (2730-analogRead(VRY))/12;
+    int x = (2750-analogRead(VRX))/20;
+    int y = (2730-analogRead(VRY))/20;
     bool click = !digitalRead(SW);
 
     if (x>0){
