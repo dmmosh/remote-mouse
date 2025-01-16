@@ -126,10 +126,6 @@ void setup() {
     hid->pnp(0x02, 0xe502, 0xa111, 0x0210);
     hid->hidInfo(0x00,0x02);
 
-    hid->inputReport(KEYBOARD_ID);
-    hid->outputReport(KEYBOARD_ID);
-    hid->inputReport(MEDIA_KEYS_ID);
-    hid->manufacturer("Dmytro M.");
     BLESecurity *pSecurity = new BLESecurity();
     pSecurity->setAuthenticationMode(ESP_LE_AUTH_BOND);
 
