@@ -118,7 +118,7 @@ void loop() {
       x/=2;
     } 
     if (y>0){
-      y/=2;
+      y/=2; 
     }
 
     if (abs(x) > 2 && abs(y) > 2){
