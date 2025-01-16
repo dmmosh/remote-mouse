@@ -113,8 +113,8 @@ void loop() {
     int x = (2750-analogRead(VRX))/8;
     int y = (2730-analogRead(VRY))/8;
 
-    x /= (x<0) ? 2 : 1;
-    y /= (y<0) ? 2 : 1;
+    x /= (x>0) ? 2 : 1;
+    y /= (y>0) ? 2 : 1;
 
 
     bool click = digitalRead(SW);
