@@ -69,6 +69,5 @@ void loop() {
       m[4] = 0; // horizontal wheel
     input->setValue(m, 5);
     input->notify();
-    Serial.println("hello");
     vTaskDelay(5/portTICK_PERIOD_MS);
 }
