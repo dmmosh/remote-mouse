@@ -58,6 +58,8 @@ extern BLEServer *pServer;
 extern BLEScan* pBLEScan;
 extern bool connected;
 
+extern const uint8_t _hidReportDescriptor[];
+
 
 void connect_wait();
 void move(uint8_t x =0, uint8_t y=0, uint8_t xwheel=0, uint8_t ywheel=0);
@@ -83,7 +85,5 @@ class MyCallbacks : public BLEServerCallbacks {
 };
 
 
-// HID Report Descriptor (for Mouse)
-extern uint8_t mouse_report_desc[];
 
 #endif
