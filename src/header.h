@@ -29,8 +29,13 @@
 #include "HIDKeyboardTypes.h"
 
 
-
+// pins 
 #define LED 2
+#define VRX 13
+#define VRY 12
+#define SW 14
+
+
 #define OFF 0
 #define ON 1
 

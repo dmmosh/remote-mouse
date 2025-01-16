@@ -57,6 +57,7 @@ void setup() {
     Serial.begin(115200);
     Serial.println("Starting BLE work!");
     pinMode(LED,OUTPUT);
+    analogSetAttenuation(ADC_11db);
 
     BLEDevice::init("Remote Mouse");
     BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
@@ -108,6 +109,11 @@ void loop() {
       connect_wait();
     }  
     digitalWrite(LED,ON);
+    uint16_t x = analogRead(VRX);
+    uint16_t y = analogRead(VRY);
+    bool click = analogRead(SW);
+
+    Serial.printf("X: %i Y: %i click: %i\n", x,y,click);
 
     move(20);
     vTaskDelay(PERIOD/portTICK_PERIOD_MS);
