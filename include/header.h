@@ -48,7 +48,7 @@ extern BLEScan* pBLEScan;
 extern bool connected;
 
 
-inline void connect_wait();
+void connect_wait();
 bool str_equals(const char* str1, const char* str2);
 
 
