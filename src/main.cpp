@@ -9,22 +9,6 @@ BLEScan* pBLEScan;
 bool connected = false;
 
 
-class MyCallbacks : public BLEServerCallbacks {
-  void onConnect(BLEServer* pServer, esp_ble_gatts_cb_param_t *param){
-    connected = true;
-    Serial.println("Connected");
-    // NEEDED ACTIONScdjknckj
-  }
-
-  void onDisconnect(BLEServer* pServer){
-    connected = false;
-    Serial.println("Disconnect");
-  }
-};
-
-
-
-
 void setup() {
     Serial.begin(115200);
     Serial.println("Starting BLE work!");
