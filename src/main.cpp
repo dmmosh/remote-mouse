@@ -110,11 +110,11 @@ void loop() {
     digitalWrite(LED,ON);
 
     move(20);
-    vTaskDelay(50/portTICK_PERIOD_MS);
+    vTaskDelay(PERIOD/portTICK_PERIOD_MS);
     move(-20);
-    vTaskDelay(50/portTICK_PERIOD_MS);
+    vTaskDelay(PERIOD/portTICK_PERIOD_MS);
     move(0,20);
-    vTaskDelay(50/portTICK_PERIOD_MS);
+    vTaskDelay(PERIOD/portTICK_PERIOD_MS);
     move(0,-20);
-    vTaskDelay(50/portTICK_PERIOD_MS);
+    vTaskDelay(PERIOD/portTICK_PERIOD_MS);
 }
