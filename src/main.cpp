@@ -29,7 +29,6 @@ void setup() {
     input = hid->inputReport(0); // <-- input REPORTID from report map
     //output = hid->outputReport(1); // <-- output REPORTID from report map
 
-    hid->manufacturer()->setValue("Dmytro M.");
 
     hid->pnp(0x02, 0xe502, 0xa111, 0x0210);
     hid->hidInfo(0x00,0x02);
@@ -37,7 +36,9 @@ void setup() {
     BLESecurity *pSecurity = new BLESecurity();
     pSecurity->setAuthenticationMode(ESP_LE_AUTH_BOND);
 
+    hid->reportMap((uint8_t*)desktop_descriptor, sizeof(desktop_descriptor));
     hid->startServices();
+
     pAdvertising = pServer->getAdvertising();
     pAdvertising->setAppearance(HID_MOUSE);
     pAdvertising->addServiceUUID(hid->hidService()->getUUID());
