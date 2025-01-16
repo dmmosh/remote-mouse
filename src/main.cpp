@@ -26,7 +26,6 @@ void setup() {
     pServer->getPeerDevices(false);
 
     hid = new BLEHIDDevice(pServer);
-    hid->reportMap((uint8_t*)report_descriptor, sizeof(report_descriptor));
     input = hid->inputReport(0); // <-- input REPORTID from report map
     //output = hid->outputReport(1); // <-- output REPORTID from report map
 
@@ -67,5 +66,5 @@ void loop() {
     }  
     move(0,0);
     move(10,10);
-    vTaskDelay(15/portTICK_PERIOD_MS);
+    vTaskDelay(30/portTICK_PERIOD_MS);
 }
