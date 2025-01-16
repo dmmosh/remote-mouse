@@ -63,7 +63,6 @@ extern BLEAdvertising *pAdvertising;
 extern BLEServer *pServer;
 extern BLEScan* pBLEScan;
 extern bool connected;
-
 extern const uint8_t mouse_report_desc[];
 
 

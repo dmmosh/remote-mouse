@@ -8,7 +8,6 @@ BLEServer *pServer;
 BLEScan* pBLEScan;
 bool connected =false;
 
-
 // HID Report Descriptor (for Mouse)
 const uint8_t mouse_report_desc[] = {
   USAGE_PAGE(1),       0x01, // USAGE_PAGE (Generic Desktop)
@@ -125,14 +124,26 @@ void loop() {
       y/=2; 
     }
 
-
-    if (abs(x) >1 || abs(y) >1){
-    uint8_t packet[] = {click,(int8_t)x,(int8_t)y}; // click , x, y, wheel, xwheel
-    if(connected)
-        input->setValue(packet, sizeof(packet));
-    if(connected)
-        input->notify();
-    };
+  
+    if (y){
+      uint8_t packet3[] = {click,(int8_t)x,(int8_t)y}; // click , x, y, wheel, xwheel
+      if(connected)
+          input->setValue(packet3, sizeof(packet3));
+      if(connected)
+          input->notify();
+    } else if (x){
+      uint8_t packet2[] = {click,(int8_t)x}; // click , x, y, wheel, xwheel
+      if(connected)
+          input->setValue(packet2, sizeof(packet2));
+      if(connected)
+          input->notify();
+    } else if (click){
+      if(connected)
+          input->setValue(&click, sizeof(click));
+      if(connected)
+          input->notify();
+    }
+    
 
     Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
     vTaskDelay(20/portTICK_PERIOD_MS);
