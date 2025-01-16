@@ -1,57 +1,4 @@
-#include <Arduino.h>
-
-
-// // BLE LIBRARIES / DATA 
-// #include <BLEDevice.h>
-// #include <BLEScan.h>
-// #include <BLEAdvertisedDevice.h>
-// #include <BLEClient.h>
-// #include <BLEServer.h>
-// #include <BLEUtils.h>
-// #include <BLEAdvertising.h>
-// #define SERVICE_UUID "9f46b94c-9574-4f6c-bd1b-ddc3a7a83a43"
-// #define CHARACTERISTIC_UUID "afe8ef56-902f-4b38-a6a2-0eade0aca572"
-// bool deviceConnected = false;
-// BLEScan *scan;
-
-
-#include <Arduino.h>
-#include <BLEDevice.h>
-#include <BLEUtils.h>
-#include <BLEServer.h>
-#include "BLE2902.h"
-#include "BLEHIDDevice.h"
-#include "HIDTypes.h"
-#include "HIDKeyboardTypes.h"
-#include <driver/adc.h>
-
-
-
-
-#define LED 2
-#define OFF 0
-#define ON 1
-
-// Report IDs:
-#define KEYBOARD_ID 0x01
-#define MEDIA_KEYS_ID 0x02
-#define MOUSE_ID 0x03
-
-// variables for the bluetooth server and hid device
-BLEHIDDevice* hid;
-BLECharacteristic* input;
-BLECharacteristic* output;
-BLEAdvertising *pAdvertising;
-BLEServer *pServer;
-BLEScan* pBLEScan;
-
-
-bool connected = false;
-
-
-
-inline void connect_wait();
-bool str_equals(const char* str1, const char* str2);
+#include "header.h"
 
 
 
@@ -70,38 +17,6 @@ class MyCallbacks : public BLEServerCallbacks {
 
 
 
-inline void connect_wait(){
-    uint16_t ms_5  = 0;
-    uint16_t seconds = 0;
-    pinMode(LED,OUTPUT);
-
-    while(!connected){
-        
-        if(ms_5 >= 200){    
-            if(seconds<21){ // note: at 20 second mark, it sets led to LOW and it stays there afterwards (to save power and not be annoying)
-                digitalWrite(LED,seconds%2);
-            }
-
-            Serial.printf("Waiting for device to pair... %is\n", seconds);
-            seconds++;
-            ms_5 = 0;
-        } else {
-        ms_5++;
-        }
-        vTaskDelay(5/portTICK_PERIOD_MS);
-    }
-}
-
-bool str_equals(const char* str1, const char* str2){
-    uint8_t j = 0;
-    while(str1[j] != '\0' || str2[j] != '\0'){
-        if (str1[j] != str2[j]){
-            return false;
-        }
-        j++;
-    }
-    return true;
-}
 
 
 
@@ -141,7 +56,6 @@ void setup() {
     pBLEScan->setInterval(100);     // Set scan interval (in milliseconds)
     pBLEScan->setWindow(99);        // Set scan window (in milliseconds)
     
-    
 
     //ESP_LOGD(LOG_TAG, "Advertising started!");
     //delay(portMAX_DELAY);
@@ -155,6 +69,5 @@ void loop() {
       connect_wait();
     }  
       digitalWrite(LED,ON);
-
     vTaskDelay(5/portTICK_PERIOD_MS);
 }
