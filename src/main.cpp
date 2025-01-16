@@ -109,17 +109,17 @@ void loop() {
       connect_wait();
     }  
     digitalWrite(LED,ON);
-    int16_t x = 2750-analogRead(VRX);
-    int16_t y = 2720-analogRead(VRY);
+    int8_t x = (2047-analogRead(VRX))/32;
+    int8_t y = (2047-analogRead(VRY))/32;
     bool click = analogRead(SW);
 
-
-    uint8_t packet[] = {0,(int8_t)x,(int8_t)y,0,0}; // click , x, y, wheel, xwheel
+    uint8_t packet[] = {0,(uint8_t)x,(uint8_t)y,0,0}; // click , x, y, wheel, xwheel
     if(connected)
         input->setValue(packet, sizeof(packet));
     if(connected)
         input->notify();
+
     Serial.printf("X: %i Y: %i click: %i\n", x,y,click);
-    vTaskDelay(30/portTICK_PERIOD_MS);
+    vTaskDelay(100/portTICK_PERIOD_MS);
 
 }
