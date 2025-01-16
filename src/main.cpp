@@ -114,7 +114,7 @@ void loop() {
     bool click = analogRead(SW);
 
     Serial.printf("X: %i Y: %i click: %i\n", x,y,click);
-    vTaskDelay(PERIOD/portTICK_PERIOD_MS);
+    vTaskDelay(500/portTICK_PERIOD_MS);
 
     // move(20);
     // vTaskDelay(PERIOD/portTICK_PERIOD_MS);
