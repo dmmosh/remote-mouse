@@ -115,8 +115,8 @@ void loop() {
     x = 21-analogRead(VRX)/128; // 2750 / 64 = 42
     y = 21-analogRead(VRY)/128; // 2730 / 64 = 42
 
-    if(!click){
-      click = !digitalRead(SW);
+    if(click != 2){
+      click = (bool)!digitalRead(SW);
     } else {
       click = 0;
     }
@@ -135,6 +135,9 @@ void loop() {
   
     if (x || y){
       move(click,x,y);
+      if (click){
+        click = 2;
+      }
     }
     
 
