@@ -51,8 +51,6 @@ extern bool connected;
 inline void connect_wait();
 bool str_equals(const char* str1, const char* str2);
 
-void setup();
-void loop();
 
 #define SHIFT 0x80
 const uint8_t _asciimap[128] =

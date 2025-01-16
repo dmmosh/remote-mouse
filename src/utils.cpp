@@ -1,7 +1,5 @@
 #include "header.h"
 
-
-
 inline void connect_wait(){
     uint16_t ms_5  = 0;
     uint16_t seconds = 0;
