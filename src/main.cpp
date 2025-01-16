@@ -63,5 +63,5 @@ void loop() {
       connect_wait();
     }  
     move(10,10);
-    vTaskDelay(10/portTICK_PERIOD_MS);
+    vTaskDelay(400/portTICK_PERIOD_MS);
 }
