@@ -98,8 +98,6 @@ void setup() {
   
 
 
-    //ESP_LOGD(LOG_TAG, "Advertising started!");
-    //delay(portMAX_DELAY);
 }
 
 

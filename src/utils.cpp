@@ -4,7 +4,8 @@
 void move(uint8_t x , uint8_t y, uint8_t xwheel, uint8_t ywheel){
     uint8_t packet[] = {0,x,y,xwheel,ywheel};
     input->setValue(packet, sizeof(packet));
-    input->notify();
+    if(connected)
+        input->notify();
 }
 
 
