@@ -60,14 +60,16 @@ void setup() {
     digitalWrite(LED,ON);
 
     BLEDevice::init("Remote Mouse");
+    BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
 
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT, ESP_PWR_LVL_P9); 
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_ADV, ESP_PWR_LVL_P9);
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_SCAN ,ESP_PWR_LVL_P9);
-    BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
+    
+
     pServer = BLEDevice::createServer();
     pServer->setCallbacks(new MyCallbacks());
-    pServer->getPeerDevices(false);
+    //pServer->getPeerDevices(false);
 
     hid = new BLEHIDDevice(pServer);
     input = hid->inputReport(0); // <-- input REPORTID from report map
