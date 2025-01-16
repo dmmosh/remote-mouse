@@ -25,8 +25,8 @@ void setup() {
     pServer->getPeerDevices(false);
 
     hid = new BLEHIDDevice(pServer);
-    input = hid->inputReport(1); // <-- input REPORTID from report map
-    output = hid->outputReport(1); // <-- output REPORTID from report map
+    input = hid->inputReport(0); // <-- input REPORTID from report map
+    output = hid->outputReport(0); // <-- output REPORTID from report map
 
     hid->manufacturer()->setValue("Remote Mouse");
 
@@ -62,7 +62,7 @@ void loop() {
     }  
       digitalWrite(LED,ON);
       uint8_t m[5];
-      m[0] = 0x1e;
+      m[0] = 0;
       m[1] = 4; // x 
       m[2] = 6; // y
       m[3] = 0; // wheel
