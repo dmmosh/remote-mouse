@@ -9,6 +9,21 @@ void move(uint8_t click,uint8_t x , uint8_t y){
         input->notify();
 }
 
+void move(uint8_t click,uint8_t x ){
+    uint8_t packet[] = {click,x};
+    if(connected)
+        input->setValue(packet, sizeof(packet));
+    if(connected)
+        input->notify();
+};
+
+void move(uint8_t click){
+    if(connected)
+        input->setValue(&click, 1);
+    if(connected)
+        input->notify();
+};
+
 
 
  void connect_wait(){

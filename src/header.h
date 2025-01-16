@@ -67,7 +67,9 @@ extern const uint8_t mouse_report_desc[];
 
 
 void connect_wait();
-void move(uint8_t click=false,uint8_t x =0, uint8_t y=0);
+void move(uint8_t click,uint8_t x , uint8_t y);
+void move(uint8_t click,uint8_t x );
+void move(uint8_t click);
 bool str_equals(const char* str1, const char* str2);
 
 void my_gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gattc_if, esp_ble_gatts_cb_param_t* param);

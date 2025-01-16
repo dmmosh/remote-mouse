@@ -129,10 +129,14 @@ void loop() {
       y/=2; 
     }
 
-  
-    if (x || y || click){
+    if(y){
       move(click,x,y);
+    } else if(x){
+      move(click,x);
+    } else if(click){
+      move(click);
     }
+
     
 
     Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
