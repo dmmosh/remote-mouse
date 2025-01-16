@@ -112,7 +112,7 @@ void loop() {
     digitalWrite(LED,ON);
     int x = (2750-analogRead(VRX))/32;
     int y = (2730-analogRead(VRY))/32;
-    bool click = !digitalRead(SW);
+    uint8_t click = !digitalRead(SW);
 
     if (x>0){
       x/=2;
