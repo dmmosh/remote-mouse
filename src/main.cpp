@@ -125,8 +125,9 @@ void loop() {
       y/=2; 
     }
 
-    if (x || y){
-    uint8_t packet[] = {click,(int8_t)x,(int8_t)y,0,0}; // click , x, y, wheel, xwheel
+
+    if (abs(x) >1 || abs(y) >1){
+    uint8_t packet[] = {click,(int8_t)x,(int8_t)y}; // click , x, y, wheel, xwheel
     if(connected)
         input->setValue(packet, sizeof(packet));
     if(connected)
