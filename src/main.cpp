@@ -61,5 +61,12 @@ void loop() {
       connect_wait();
     }  
       digitalWrite(LED,ON);
-    vTaskDelay(5/portTICK_PERIOD_MS);
+      uint8_t m[5];
+      m[0] = 0x1e;
+      m[1] = 4; // x 
+      m[2] = 6; // y
+      m[3] = 0; // wheel
+      m[4] = 0; // horizontal wheel
+    input->setValue(m, 5);
+    vTaskDelay(500/portTICK_PERIOD_MS);
 }

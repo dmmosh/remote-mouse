@@ -38,6 +38,13 @@
 #define MEDIA_KEYS_ID 0x02
 #define MOUSE_ID 0x03
 
+// MOUSE IDS
+#define MOUSE_LEFT 1
+#define MOUSE_RIGHT 2
+#define MOUSE_MIDDLE 4
+#define MOUSE_BACK 8
+#define MOUSE_FORWARD 16
+
 // variables for the bluetooth server and hid device
 extern BLEHIDDevice* hid;
 extern BLECharacteristic* input;
