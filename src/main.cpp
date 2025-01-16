@@ -113,9 +113,13 @@ void loop() {
     int16_t y = 2720-analogRead(VRY);
     bool click = analogRead(SW);
 
-    
-    move(x,y);
+
+    uint8_t packet[] = {0,x,y,0,0}; // click , x, y, wheel, xwheel
+    if(connected)
+        input->setValue(packet, sizeof(packet));
+    if(connected)
+        input->notify();
     Serial.printf("X: %i Y: %i click: %i\n", x,y,click);
-    vTaskDelay(20/portTICK_PERIOD_MS);
+    vTaskDelay(30/portTICK_PERIOD_MS);
 
 }
