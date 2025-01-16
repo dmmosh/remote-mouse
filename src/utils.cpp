@@ -8,7 +8,6 @@ void move(uint8_t x , uint8_t y, uint8_t xwheel, uint8_t ywheel){
 }
 
 void my_gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gattc_if, esp_ble_gatts_cb_param_t* param){
-    Serial.println((int)event);
     switch (event) {
                case 0:       Serial.println("EVENT #0:   register application id");
         break; case 1:       Serial.println("EVENT #1:   gatt client request read operation");
