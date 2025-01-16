@@ -1,5 +1,5 @@
 #include "header.h"
-
+bool connected = false;
 
 
 class MyCallbacks : public BLEServerCallbacks {
