@@ -42,7 +42,6 @@ void setup() {
     pAdvertising->setAppearance(HID_MOUSE);
     pAdvertising->addServiceUUID(hid->hidService()->getUUID());
     pAdvertising->start();
-    hid->setBatteryLevel(100);
 
     pBLEScan = BLEDevice::getScan();  
     pBLEScan->setActiveScan(true);  // Set active scan to get more information (e.g., RSSI)
@@ -70,5 +69,8 @@ void loop() {
       m[4] = 0; // horizontal wheel
     input->setValue(m, 5);
     input->notify();
+    hid->setBatteryLevel(5);
+    vTaskDelay(10/portTICK_PERIOD_MS);
+    hid->setBatteryLevel(100);
     vTaskDelay(10/portTICK_PERIOD_MS);
 }
