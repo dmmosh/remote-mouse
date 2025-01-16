@@ -57,6 +57,7 @@ void setup() {
     Serial.begin(115200);
     Serial.println("Starting BLE work!");
     pinMode(LED,OUTPUT);
+    pinMode(SW, INPUT_PULLUP);
     //analogSetAttenuation(ADC_11db);
 
     BLEDevice::init("Remote Mouse");
@@ -111,7 +112,7 @@ void loop() {
     digitalWrite(LED,ON);
     int8_t x = (2047-analogRead(VRX))/32;
     int8_t y = (2047-analogRead(VRY))/32;
-    bool click = analogRead(SW);
+    bool click = digitalRead(SW);
 
     // uint8_t packet[] = {0,(uint8_t)x,(uint8_t)y,0,0}; // click , x, y, wheel, xwheel
     // if(connected)
