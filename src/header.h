@@ -22,11 +22,13 @@
 #include <BLEDevice.h>
 #include <BLEUtils.h>
 #include <BLEServer.h>
+#include <driver/adc.h>
+#include <BleMouse.h>
 #include "BLE2902.h"
 #include "BLEHIDDevice.h"
 #include "HIDTypes.h"
 #include "HIDKeyboardTypes.h"
-#include <driver/adc.h>
+
 
 
 #define LED 2
@@ -44,6 +46,7 @@
 #define MOUSE_MIDDLE 4
 #define MOUSE_BACK 8
 #define MOUSE_FORWARD 16
+#define BLEMouse BleMouse
 
 // variables for the bluetooth server and hid device
 extern BLEHIDDevice* hid;
@@ -52,6 +55,7 @@ extern BLECharacteristic* output;
 extern BLEAdvertising *pAdvertising;
 extern BLEServer *pServer;
 extern BLEScan* pBLEScan;
+extern BLEMouse* mouse;
 extern bool connected;
 
 

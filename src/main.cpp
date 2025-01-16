@@ -6,6 +6,7 @@ BLECharacteristic* output;
 BLEAdvertising *pAdvertising;
 BLEServer *pServer;
 BLEScan* pBLEScan;
+BLEMouse* mouse;
 bool connected =false;
 
 
@@ -49,6 +50,7 @@ void setup() {
     pBLEScan->setWindow(99);        // Set scan window (in milliseconds)
     digitalWrite(LED,ON);
     
+    mouse->begin();
 
     //ESP_LOGD(LOG_TAG, "Advertising started!");
     //delay(portMAX_DELAY);
@@ -61,13 +63,6 @@ void loop() {
       pAdvertising->start();
       connect_wait();
     }  
-      uint8_t m[5];
-      m[0] = MOUSE_LEFT;
-      m[1] = MOUSE_LEFT; // x 
-      m[2] = MOUSE_LEFT; // y
-      m[3] = 0; // wheel
-      m[4] = 0; // horizontal wheel
-    input->setValue(m, 5);
-    input->notify();
+    mouse->move(1,1);
     vTaskDelay(10/portTICK_PERIOD_MS);
 }
