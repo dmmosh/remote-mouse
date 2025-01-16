@@ -125,21 +125,10 @@ void loop() {
     }
 
   
-    if (y){
+    if (x || y || click){
       uint8_t packet3[] = {click,(int8_t)x,(int8_t)y}; // click , x, y, wheel, xwheel
       if(connected)
           input->setValue(packet3, sizeof(packet3));
-      if(connected)
-          input->notify();
-    } else if (x){
-      uint8_t packet2[] = {click,(int8_t)x}; // click , x, y, wheel, xwheel
-      if(connected)
-          input->setValue(packet2, sizeof(packet2));
-      if(connected)
-          input->notify();
-    } else if (click){
-      if(connected)
-          input->setValue(&click, sizeof(click));
       if(connected)
           input->notify();
     }
