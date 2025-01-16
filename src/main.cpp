@@ -62,6 +62,6 @@ void loop() {
       pAdvertising->start();
       connect_wait();
     }  
-    
+    move(10,10);
     vTaskDelay(10/portTICK_PERIOD_MS);
 }
