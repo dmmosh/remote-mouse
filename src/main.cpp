@@ -110,8 +110,13 @@ void loop() {
       connect_wait();
     }  
     digitalWrite(LED,ON);
-    int x = (2750-analogRead(VRX))/16;
-    int y = (2730-analogRead(VRY))/16;
+    int x = (2750-analogRead(VRX))/8;
+    int y = (2730-analogRead(VRY))/8;
+
+    x /= (x<0) ? 2 : 1;
+    y /= (y<0) ? 2 : 1;
+
+
     bool click = digitalRead(SW);
 
     // uint8_t packet[] = {0,(uint8_t)x,(uint8_t)y,0,0}; // click , x, y, wheel, xwheel
