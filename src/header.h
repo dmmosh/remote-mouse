@@ -49,8 +49,8 @@ extern bool connected;
 
 
 class MyCallbacks : public BLEServerCallbacks {
-  void onConnect(BLEServer* pServer, esp_ble_gatts_cb_param_t *param) override;
-  void onDisconnect(BLEServer* pServer) override;
+  void onConnect(BLEServer* pServer, esp_ble_gatts_cb_param_t *param);
+  void onDisconnect(BLEServer* pServer);
 };
 
 void connect_wait();
