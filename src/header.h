@@ -1,3 +1,6 @@
+#ifndef REMOTE_H
+#define REMOTE_H
+
 #include <Arduino.h>
 
 
@@ -184,3 +187,6 @@ const uint8_t _asciimap[128] =
 	0x35|SHIFT,    // ~
 	0				// DEL
 };
+
+
+#endif
