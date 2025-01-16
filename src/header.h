@@ -63,22 +63,18 @@ class MyCallbacks : public BLEServerCallbacks {
     connected = true;
     Serial.println("Connected");
     // NEEDED ACTIONScdjknckj
+	BLE2902* desc = (BLE2902*)input->getDescriptorByUUID(BLEUUID((uint16_t)0x2902));
+  	desc->setNotifications(true);
   }
 
   void onDisconnect(BLEServer* pServer){
     connected = false;
     Serial.println("Disconnect");
+	BLE2902* desc = (BLE2902*)input->getDescriptorByUUID(BLEUUID((uint16_t)0x2902));
+  	desc->setNotifications(true);		
   }
 
-	void onRead(BLECharacteristic* pCharacteristic) {
-			Serial.println("Characteristic read request");
-		}
 
-	void onWrite(BLECharacteristic* pCharacteristic) {
-		std::string value = pCharacteristic->getValue();
-		Serial.print("Characteristic write request, value: ");
-		Serial.println(value.c_str());
-	}
 };
 
 

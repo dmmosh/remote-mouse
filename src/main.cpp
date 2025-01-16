@@ -28,7 +28,7 @@ void setup() {
     input = hid->inputReport(0); // <-- input REPORTID from report map
     //output = hid->outputReport(0); // <-- output REPORTID from report map
 
-    hid->manufacturer()->setValue("Remote Mouse");
+    hid->manufacturer()->setValue("Dmytro M.");
 
     hid->pnp(0x02, 0xe502, 0xa111, 0x0210);
     hid->hidInfo(0x00,0x02);
@@ -47,6 +47,7 @@ void setup() {
     pBLEScan->setActiveScan(true);  // Set active scan to get more information (e.g., RSSI)
     pBLEScan->setInterval(100);     // Set scan interval (in milliseconds)
     pBLEScan->setWindow(99);        // Set scan window (in milliseconds)
+    digitalWrite(LED,ON);
     
 
     //ESP_LOGD(LOG_TAG, "Advertising started!");
@@ -60,7 +61,6 @@ void loop() {
       pAdvertising->start();
       connect_wait();
     }  
-      digitalWrite(LED,ON);
       uint8_t m[5];
       m[0] = MOUSE_LEFT;
       m[1] = 0; // x 
