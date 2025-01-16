@@ -112,18 +112,22 @@ void loop() {
     digitalWrite(LED,ON);
     int x = (2750-analogRead(VRX))/12;
     int y = (2730-analogRead(VRY))/12;
+    bool click = !digitalRead(SW);
 
-    x /= (x>0) ? 2 : 1;
-    y /= (y>0) ? 2 : 1;
+    if (x>0){
+      x/=2;
+    } 
+    if (y>0){
+      y/=2;
+    }
 
-
-    bool click = digitalRead(SW);
-
-    // uint8_t packet[] = {0,(uint8_t)x,(uint8_t)y,0,0}; // click , x, y, wheel, xwheel
-    // if(connected)
-    //     input->setValue(packet, sizeof(packet));
-    // if(connected)
-    //     input->notify();
+    if (abs(x) < 4 && abs(y) < 4){
+    uint8_t packet[] = {click,(int8_t)x,(int8_t)y,0,0}; // click , x, y, wheel, xwheel
+    if(connected)
+        input->setValue(packet, sizeof(packet));
+    if(connected)
+        input->notify();
+    };
 
     Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
     vTaskDelay(100/portTICK_PERIOD_MS);
