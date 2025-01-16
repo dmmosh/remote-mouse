@@ -1,8 +1,24 @@
 #include "header.h"
 
-void connect_wait(){
+
+
+class MyCallbacks : public BLEServerCallbacks {
+  void onConnect(BLEServer* pServer, esp_ble_gatts_cb_param_t *param){
+    connected = true;
+    Serial.println("Connected");
+    // NEEDED ACTIONScdjknckj
+  }
+
+  void onDisconnect(BLEServer* pServer){
+    connected = false;
+    Serial.println("Disconnect");
+  }
+};
+
+ void connect_wait(){
     uint16_t ms_5  = 0;
     uint16_t seconds = 0;
+    pinMode(LED,OUTPUT);
 
     while(!connected){
         
@@ -30,15 +46,4 @@ bool str_equals(const char* str1, const char* str2){
         j++;
     }
     return true;
-}
-
-void BLEServerCallbacks::onConnect(BLEServer* pServer, esp_ble_gatts_cb_param_t *param){
-    connected = true;
-    Serial.println("Connected");
-    // NEEDED ACTIONScdjknckj
-}
-
-void BLEServerCallbacks::onDisconnect(BLEServer* pServer){
-    connected = false;
-    Serial.println("Disconnect");
 }

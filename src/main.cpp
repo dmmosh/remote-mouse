@@ -6,7 +6,10 @@ BLECharacteristic* output;
 BLEAdvertising *pAdvertising;
 BLEServer *pServer;
 BLEScan* pBLEScan;
-bool connected = false;
+bool connected =false;
+
+
+
 
 
 void setup() {
