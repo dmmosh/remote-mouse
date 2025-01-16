@@ -64,7 +64,7 @@ void loop() {
       uint8_t m[5];
       m[0] = 0;
       m[1] = MOUSE_LEFT; // x 
-      m[2] = 6; // y
+      m[2] = 0; // y
       m[3] = 0; // wheel
       m[4] = 0; // horizontal wheel
     input->setValue(m, 5);
