@@ -121,7 +121,7 @@ void loop() {
       y/=2;
     }
 
-    if (abs(x) < 4 && abs(y) < 4){
+    if (abs(x) > 4 && abs(y) > 4){
     uint8_t packet[] = {click,(int8_t)x,(int8_t)y,0,0}; // click , x, y, wheel, xwheel
     if(connected)
         input->setValue(packet, sizeof(packet));
