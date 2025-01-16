@@ -51,7 +51,7 @@ extern bool connected;
 class MyCallbacks : public BLEServerCallbacks {
   void onConnect(BLEServer* pServer, esp_ble_gatts_cb_param_t *param);
   void onDisconnect(BLEServer* pServer);
-}
+};
 
 void connect_wait();
 bool str_equals(const char* str1, const char* str2);
