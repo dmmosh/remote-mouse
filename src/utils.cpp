@@ -2,19 +2,6 @@
 
 
 
-class MyCallbacks : public BLEServerCallbacks {
-  void onConnect(BLEServer* pServer, esp_ble_gatts_cb_param_t *param){
-    connected = true;
-    Serial.println("Connected");
-    // NEEDED ACTIONScdjknckj
-  }
-
-  void onDisconnect(BLEServer* pServer){
-    connected = false;
-    Serial.println("Disconnect");
-  }
-};
-
  void connect_wait(){
     uint16_t ms_5  = 0;
     uint16_t seconds = 0;

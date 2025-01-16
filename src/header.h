@@ -51,6 +51,18 @@ extern bool connected;
 void connect_wait();
 bool str_equals(const char* str1, const char* str2);
 
+class MyCallbacks : public BLEServerCallbacks {
+  void onConnect(BLEServer* pServer, esp_ble_gatts_cb_param_t *param){
+    connected = true;
+    Serial.println("Connected");
+    // NEEDED ACTIONScdjknckj
+  }
+
+  void onDisconnect(BLEServer* pServer){
+    connected = false;
+    Serial.println("Disconnect");
+  }
+};
 
 
 #define SHIFT 0x80
