@@ -61,7 +61,7 @@ void setup() {
     //analogSetAttenuation(ADC_11db);
 
     BLEDevice::init("Remote Mouse");
-    BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
+    //BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
 
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT, ESP_PWR_LVL_P9); 
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_ADV, ESP_PWR_LVL_P9);
@@ -129,7 +129,7 @@ void loop() {
         input->notify();
     };
 
-    //Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
-    vTaskDelay(20/portTICK_PERIOD_MS);
+    Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
+    vTaskDelay(10/portTICK_PERIOD_MS);
 
 }
