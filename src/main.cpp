@@ -60,7 +60,7 @@ void setup() {
     //analogSetAttenuation(ADC_11db);
 
     BLEDevice::init("Remote Mouse");
-    BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
+    //BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
 
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT, ESP_PWR_LVL_P9); 
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_ADV, ESP_PWR_LVL_P9);
