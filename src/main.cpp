@@ -1,4 +1,11 @@
 #include "header.h"
+// variables for the bluetooth server and hid device
+BLEHIDDevice* hid;
+BLECharacteristic* input;
+BLECharacteristic* output;
+BLEAdvertising *pAdvertising;
+BLEServer *pServer;
+BLEScan* pBLEScan;
 bool connected = false;
 
 
