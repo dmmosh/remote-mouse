@@ -41,7 +41,6 @@ void setup() {
     pAdvertising->setAppearance(HID_MOUSE);
     pAdvertising->addServiceUUID(hid->hidService()->getUUID());
     pAdvertising->start();
-    hid->reportMap()
     hid->setBatteryLevel(100);
 
     pBLEScan = BLEDevice::getScan();  
