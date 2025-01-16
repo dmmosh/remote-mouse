@@ -115,10 +115,8 @@ void loop() {
     x = 21-analogRead(VRX)/128; // 2750 / 64 = 42
     y = 21-analogRead(VRY)/128; // 2730 / 64 = 42
 
-    uint8_t curr_click = (bool)!digitalRead(SW);
-    if(curr_click && click){
-      click = 0;
-    }
+    click = (bool)!digitalRead(SW);
+    
     
     if(abs(x)>10) x/=2;
     if(abs(y)>10) y/=2;
