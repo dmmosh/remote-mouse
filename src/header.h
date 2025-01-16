@@ -120,3 +120,4 @@ static const uint8_t report_descriptor[] = {
   END_COLLECTION(0)          // END_COLLECTION
 };
 
+#endif
