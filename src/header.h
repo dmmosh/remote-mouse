@@ -69,6 +69,16 @@ class MyCallbacks : public BLEServerCallbacks {
     connected = false;
     Serial.println("Disconnect");
   }
+
+	void onRead(BLECharacteristic* pCharacteristic) {
+			Serial.println("Characteristic read request");
+		}
+
+	void onWrite(BLECharacteristic* pCharacteristic) {
+		std::string value = pCharacteristic->getValue();
+		Serial.print("Characteristic write request, value: ");
+		Serial.println(value.c_str());
+	}
 };
 
 

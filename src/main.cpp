@@ -26,7 +26,7 @@ void setup() {
 
     hid = new BLEHIDDevice(pServer);
     input = hid->inputReport(0); // <-- input REPORTID from report map
-    output = hid->outputReport(0); // <-- output REPORTID from report map
+    //output = hid->outputReport(0); // <-- output REPORTID from report map
 
     hid->manufacturer()->setValue("Remote Mouse");
 
