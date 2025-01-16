@@ -110,8 +110,8 @@ void loop() {
       connect_wait();
     }  
     digitalWrite(LED,ON);
-    int x = (2750-analogRead(VRX))/20;
-    int y = (2730-analogRead(VRY))/20;
+    int x = (2750-analogRead(VRX))/32;
+    int y = (2730-analogRead(VRY))/32;
     bool click = !digitalRead(SW);
 
     if (x>0){
@@ -121,7 +121,7 @@ void loop() {
       y/=2;
     }
 
-    if (abs(x) > 4 && abs(y) > 4){
+    if (abs(x) > 2 && abs(y) > 2){
     uint8_t packet[] = {click,(int8_t)x,(int8_t)y,0,0}; // click , x, y, wheel, xwheel
     if(connected)
         input->setValue(packet, sizeof(packet));
