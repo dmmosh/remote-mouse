@@ -76,8 +76,8 @@ void setup() {
     //output = hid->outputReport(1); // <-- output REPORTID from report map
 
 
-    hid->pnp(0x02, 0xe502, 0xa111, 0x0210);
-    hid->hidInfo(0x00,0x02);
+     hid->pnp(0x02, 0xe502, 0xa111, 0x0210);
+     hid->hidInfo(0x00,0x02);
 
     BLESecurity *pSecurity = new BLESecurity();
     pSecurity->setAuthenticationMode(ESP_LE_AUTH_BOND);
