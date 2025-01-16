@@ -71,7 +71,7 @@ class MyCallbacks : public BLEServerCallbacks {
     connected = false;
     Serial.println("Disconnect");
 	BLE2902* desc = (BLE2902*)input->getDescriptorByUUID(BLEUUID((uint16_t)0x2902));
-  	desc->setNotifications(true);		
+  	desc->setNotifications(false);		
   }
 
 
