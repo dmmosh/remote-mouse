@@ -109,19 +109,13 @@ void loop() {
       connect_wait();
     }  
     digitalWrite(LED,ON);
-    uint16_t x = analogRead(VRX);
-    uint16_t y = analogRead(VRY);
+    int16_t x = 2750-analogRead(VRX);
+    int16_t y = 2720-analogRead(VRY);
     bool click = analogRead(SW);
 
+    
+    move(x,y);
     Serial.printf("X: %i Y: %i click: %i\n", x,y,click);
-    vTaskDelay(500/portTICK_PERIOD_MS);
+    vTaskDelay(20/portTICK_PERIOD_MS);
 
-    // move(20);
-    // vTaskDelay(PERIOD/portTICK_PERIOD_MS);
-    // move(-20);
-    // vTaskDelay(PERIOD/portTICK_PERIOD_MS);
-    // move(0,20);
-    // vTaskDelay(PERIOD/portTICK_PERIOD_MS);
-    // move(0,-20);
-    // vTaskDelay(PERIOD/portTICK_PERIOD_MS);
 }
