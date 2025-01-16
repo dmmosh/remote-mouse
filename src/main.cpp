@@ -57,7 +57,7 @@ void setup() {
     Serial.begin(115200);
     Serial.println("Starting BLE work!");
     pinMode(LED,OUTPUT);
-    analogSetAttenuation(ADC_11db);
+    //analogSetAttenuation(ADC_11db);
 
     BLEDevice::init("Remote Mouse");
     BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
