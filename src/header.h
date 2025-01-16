@@ -39,7 +39,7 @@
 #define MEDIA_KEYS_ID 0x02
 #define MOUSE_ID 0x03
 
-#define PERIOD 30 // period (in ms)
+#define PERIOD 20 // period (in ms)
 
 // MOUSE IDS
 #define CLICK_LEFT 1
