@@ -33,6 +33,6 @@ void loop() {
       pAdvertising->start();
       connect_wait();
     }  
-    
+    mouse->move(1,1);
     vTaskDelay(10/portTICK_PERIOD_MS);
 }
