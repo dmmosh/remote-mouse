@@ -17,6 +17,7 @@ void setup() {
     Serial.println("Starting BLE work!");
     pinMode(LED,OUTPUT);
     BLEDevice::init("Remote Mouse");
+    BLEDevice::setCustomGattsHandler(gatts_event_handler);
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT, ESP_PWR_LVL_P9); 
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_ADV, ESP_PWR_LVL_P9);
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_SCAN ,ESP_PWR_LVL_P9);
@@ -51,7 +52,7 @@ void setup() {
     
     hid->setBatteryLevel(100);
 
-    esp_ble_gatts_register_callback(gatts_event_handler);
+
 
     //ESP_LOGD(LOG_TAG, "Advertising started!");
     //delay(portMAX_DELAY);
