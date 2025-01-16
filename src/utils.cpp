@@ -1,7 +1,7 @@
 #include "header.h"
 
 
-void move(uint8_t x =0, uint8_t y=0, uint8_t xwheel=0, uint8_t ywheel=0){
+void move(uint8_t x , uint8_t y, uint8_t xwheel, uint8_t ywheel){
     uint8_t packet[] = {0,x,y,xwheel,ywheel};
 
     input->setValue(packet, 5);
