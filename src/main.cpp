@@ -26,7 +26,7 @@ void setup() {
 
     hid = new BLEHIDDevice(pServer);
     input = hid->inputReport(1); // <-- input REPORTID from report map
-    //output = hid->outputReport(0); // <-- output REPORTID from report map
+    output = hid->outputReport(1); // <-- output REPORTID from report map
 
     hid->manufacturer()->setValue("Dmytro M.");
 
@@ -41,6 +41,7 @@ void setup() {
     pAdvertising->setAppearance(HID_MOUSE);
     pAdvertising->addServiceUUID(hid->hidService()->getUUID());
     pAdvertising->start();
+    hid->reportMap()
     hid->setBatteryLevel(100);
 
     pBLEScan = BLEDevice::getScan();  
