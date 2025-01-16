@@ -69,5 +69,5 @@ void loop() {
       m[4] = 0; // horizontal wheel
     input->setValue(m, 5);
     input->notify();
-    vTaskDelay(500/portTICK_PERIOD_MS);
+    vTaskDelay(10/portTICK_PERIOD_MS);
 }
