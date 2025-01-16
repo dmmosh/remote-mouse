@@ -130,6 +130,6 @@ void loop() {
     };
 
     Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
-    vTaskDelay(40/portTICK_PERIOD_MS);
+    vTaskDelay(30/portTICK_PERIOD_MS);
 
 }
