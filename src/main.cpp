@@ -110,9 +110,13 @@ void loop() {
       connect_wait();
     }  
     digitalWrite(LED,ON);
-    int x = 42-analogRead(VRX)/64; // 2750 / 64 = 42
-    int y = 42-analogRead(VRY)/64; // 2730 / 64 = 42
+    int x = 21-analogRead(VRX)/128; // 2750 / 64 = 42
+    int y = 21-analogRead(VRY)/128; // 2730 / 64 = 42
     uint8_t click = !digitalRead(SW);
+    
+    if(abs(x)>10) x/=2;
+    if(abs(y)>10) y/=2;
+
 
     if (x>0){
       x/=2;
@@ -130,6 +134,6 @@ void loop() {
     };
 
     Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
-    vTaskDelay(15/portTICK_PERIOD_MS);
+    vTaskDelay(20/portTICK_PERIOD_MS);
 
 }
