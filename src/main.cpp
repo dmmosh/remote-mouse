@@ -51,6 +51,8 @@ void setup() {
     
     hid->setBatteryLevel(100);
 
+    esp_ble_gatts_register_callback(gatts_event_handler);
+
     //ESP_LOGD(LOG_TAG, "Advertising started!");
     //delay(portMAX_DELAY);
 }
