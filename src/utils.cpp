@@ -1,6 +1,15 @@
 #include "header.h"
 
 
+void move(uint8_t x =0, uint8_t y=0, uint8_t xwheel=0, uint8_t ywheel=0){
+    uint8_t packet[] = {0,x,y,xwheel,ywheel};
+
+    input->setValue(packet, 5);
+    input->notify();
+
+
+}
+
 
  void connect_wait(){
     uint16_t ms_5  = 0;

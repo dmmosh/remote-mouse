@@ -57,6 +57,7 @@ extern bool connected;
 
 
 void connect_wait();
+void move(uint8_t x =0, uint8_t y=0, uint8_t xwheel=0, uint8_t ywheel=0);
 bool str_equals(const char* str1, const char* str2);
 
 class MyCallbacks : public BLEServerCallbacks {
@@ -74,8 +75,6 @@ class MyCallbacks : public BLEServerCallbacks {
 	BLE2902* desc = (BLE2902*)input->getDescriptorByUUID(BLEUUID((uint16_t)0x2902));
   	desc->setNotifications(false);		
   }
-
-
 };
 
 

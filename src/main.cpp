@@ -62,13 +62,6 @@ void loop() {
       pAdvertising->start();
       connect_wait();
     }  
-      uint8_t m[5];
-      m[0] = MOUSE_LEFT;
-      m[1] = 30; // x (how many left/right, signed)
-      m[2] = 30; // y ( how many up/down, signed )
-      m[3] = 0; // wheel
-      m[4] = 0; // horizontal wheel
-    input->setValue(m, 5);
-    input->notify();
+    
     vTaskDelay(10/portTICK_PERIOD_MS);
 }
