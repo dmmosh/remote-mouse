@@ -107,6 +107,14 @@ void loop() {
       pAdvertising->start();
       connect_wait();
     }  
-    move(20,20);
+    digitalWrite(LED,ON);
+
+    move(20);
+    vTaskDelay(50/portTICK_PERIOD_MS);
+    move(-20);
+    vTaskDelay(50/portTICK_PERIOD_MS);
+    move(0,20);
+    vTaskDelay(50/portTICK_PERIOD_MS);
+    move(0,-20);
     vTaskDelay(50/portTICK_PERIOD_MS);
 }
