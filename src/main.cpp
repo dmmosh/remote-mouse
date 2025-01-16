@@ -70,5 +70,5 @@ void loop() {
     input->setValue(m, 5);
     input->notify();
     Serial.println("hello");
-    vTaskDelay(500/portTICK_PERIOD_MS);
+    vTaskDelay(5/portTICK_PERIOD_MS);
 }
