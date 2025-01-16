@@ -25,8 +25,8 @@ void setup() {
     pServer->getPeerDevices(false);
 
     hid = new BLEHIDDevice(pServer);
-    input = hid->inputReport(1); // <-- input REPORTID from report map
-    output = hid->outputReport(1); // <-- output REPORTID from report map
+    input = hid->inputReport(0); // <-- input REPORTID from report map
+    output = hid->outputReport(0); // <-- output REPORTID from report map
 
     hid->manufacturer()->setValue("Dmytro M.");
 
