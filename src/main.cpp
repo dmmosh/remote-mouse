@@ -57,7 +57,6 @@ void setup() {
     Serial.begin(115200);
     Serial.println("Starting BLE work!");
     pinMode(LED,OUTPUT);
-    digitalWrite(LED,ON);
 
     BLEDevice::init("Remote Mouse");
     BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
@@ -95,6 +94,7 @@ void setup() {
    
     
     hid->setBatteryLevel(100);
+    digitalWrite(LED,ON);
   
 
 
@@ -107,12 +107,6 @@ void loop() {
       pAdvertising->start();
       connect_wait();
     }  
-    move(10,0);
-    vTaskDelay(100/portTICK_PERIOD_MS);
-    move(-10,0);
-    vTaskDelay(100/portTICK_PERIOD_MS);
-    move(0,10);
-    vTaskDelay(100/portTICK_PERIOD_MS);
-    move(0,-10);
-    vTaskDelay(100/portTICK_PERIOD_MS);
+    move(20,20);
+    vTaskDelay(50/portTICK_PERIOD_MS);
 }
