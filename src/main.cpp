@@ -108,7 +108,9 @@ void setup(){
     loop();
 }
 
-
+int x = 0;
+  int y = 0;
+  uint8_t click = 0;
 void loop() {
 
     if(!connected){
@@ -118,12 +120,10 @@ void loop() {
       digitalWrite(JOYSTICK, ON);
       digitalWrite(LED,ON);
     }  
-    int x = 0;
-    int y = 0;
-    uint8_t click = 0;
     
-    x = 21-analogRead(VRX)/128; // 2750 / 64 = 42
-    y = 21-analogRead(VRY)/128; // 2730 / 64 = 42
+    
+    x = (21-analogRead(VRX)/128)>>1; // 2750 / 64 = 42
+    y = (21-analogRead(VRY)/128)>>1; // 2730 / 64 = 42
 
     click = (bool)!digitalRead(SW);
     
@@ -138,6 +138,7 @@ void loop() {
     if (y>0){
       y/=2; 
     }
+    Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
 
     if(y){
       move(click,x,y);
@@ -149,7 +150,6 @@ void loop() {
 
     
 
-    //Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
     vTaskDelay(20/portTICK_PERIOD_MS);
 
 }
