@@ -33,6 +33,7 @@
 #define VRX 13
 #define VRY 12
 #define SW 14
+#define JOYSTICK 27
 
 
 #define OFF 0

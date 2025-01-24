@@ -59,6 +59,10 @@ void setup(){
     Serial.begin(115200);
     Serial.println("Starting BLE work!");
     pinMode(LED,OUTPUT);
+    pinMode(JOYSTICK,OUTPUT);
+    digitalWrite(JOYSTICK,OFF);
+    digitalWrite(LED,OFF);
+
     
     //analogSetAttenuation(ADC_11db);
 
@@ -111,10 +115,12 @@ uint8_t click = 0;
 void loop() {
 
     if(!connected){
+      digitalWrite(JOYSTICK, OFF);
       pAdvertising->start();
       connect_wait();
+      digitalWrite(JOYSTICK, ON);
+      digitalWrite(LED,ON);
     }  
-    digitalWrite(LED,ON);
     x = 21-analogRead(VRX)/128; // 2750 / 64 = 42
     y = 21-analogRead(VRY)/128; // 2730 / 64 = 42
 
