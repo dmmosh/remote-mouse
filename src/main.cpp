@@ -154,5 +154,5 @@ void loop() {
 
     
 
-    delay(10);
+    delay(5);
 }
