@@ -54,7 +54,7 @@ const uint8_t mouse_report_desc[] = {
 
 
 
-void setup(void){
+void setup(){
     setCpuFrequencyMhz(240);
     Serial.begin(115200);
     Serial.println("Starting BLE work!");
@@ -108,7 +108,7 @@ void setup(void){
 int x = 0;
 int y = 0;
 uint8_t click = 0;
-void loop(void) {
+void loop() {
 
     if(!connected){
       pAdvertising->start();
