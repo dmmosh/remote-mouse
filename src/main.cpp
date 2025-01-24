@@ -140,7 +140,7 @@ void loop() {
     if (y>0){
       y/=2; 
     } else {
-      y += 2;
+      y += 1;
     }
     //+Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
 
