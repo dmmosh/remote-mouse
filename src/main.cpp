@@ -1,4 +1,5 @@
 #include "header.h"
+
 // variables for the bluetooth server and hid device
 BLEHIDDevice* hid;
 BLECharacteristic* input;
@@ -7,6 +8,7 @@ BLEAdvertising *pAdvertising;
 BLEServer *pServer;
 BLEScan* pBLEScan;
 bool connected =false;
+
 
 // HID Report Descriptor (for Mouse)
 const uint8_t mouse_report_desc[] = {
@@ -52,11 +54,12 @@ const uint8_t mouse_report_desc[] = {
 
 
 
-void setup() {
+void setup(void){
+    setCpuFrequencyMhz(240);
     Serial.begin(115200);
     Serial.println("Starting BLE work!");
     pinMode(LED,OUTPUT);
-    pinMode(SW, INPUT_PULLUP);
+    
     //analogSetAttenuation(ADC_11db);
 
     BLEDevice::init("Remote Mouse");
@@ -97,15 +100,15 @@ void setup() {
     hid->setBatteryLevel(100);
     digitalWrite(LED,ON);
   
-
-
+    pinMode(SW, INPUT_PULLUP);
+    loop();
 }
 
 
 int x = 0;
 int y = 0;
 uint8_t click = 0;
-void loop() {
+void loop(void) {
 
     if(!connected){
       pAdvertising->start();

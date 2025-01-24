@@ -17,7 +17,6 @@
 // bool deviceConnected = false;
 // BLEScan *scan;
 
-
 #include <Arduino.h>
 #include <BLEDevice.h>
 #include <BLEUtils.h>
