@@ -135,14 +135,14 @@ void loop() {
     if (x>0){
       x/=2;
     } else {
-      x+=5;
+      x+=2;
     }
     if (y>0){
       y/=2; 
     } else {
-      y += 5;
+      y += 2;
     }
-    //Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
+    //+Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
 
     if(y){
       move(click,x,y);
