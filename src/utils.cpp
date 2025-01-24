@@ -44,7 +44,7 @@ void move(uint8_t click){
         } else {
         ms_5++;
         }
-        vTaskDelay(5/portTICK_PERIOD_MS);
+        delay(5);
     }
 }
 

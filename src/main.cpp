@@ -55,7 +55,7 @@ const uint8_t mouse_report_desc[] = {
 
 
 void setup(){
-    //setCpuFrequencyMhz(240);
+    setCpuFrequencyMhz(240);
     Serial.begin(115200);
     Serial.println("Starting BLE work!");
     pinMode(LED,OUTPUT);
@@ -154,6 +154,5 @@ void loop() {
 
     
 
-    vTaskDelay(20/portTICK_PERIOD_MS);
-
+    delay(20);
 }
