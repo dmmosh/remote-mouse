@@ -109,9 +109,6 @@ void setup(){
 }
 
 
-int x = 0;
-int y = 0;
-uint8_t click = 0;
 void loop() {
 
     if(!connected){
@@ -121,9 +118,13 @@ void loop() {
       digitalWrite(JOYSTICK, ON);
       digitalWrite(LED,ON);
     }  
+    int x = 0;
+    int y = 0;
+    uint8_t click = 0;
+    
     x = 21-analogRead(VRX)/128; // 2750 / 64 = 42
     y = 21-analogRead(VRY)/128; // 2730 / 64 = 42
-
+    
     click = (bool)!digitalRead(SW);
     
     
