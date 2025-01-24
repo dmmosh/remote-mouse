@@ -56,8 +56,8 @@ const uint8_t mouse_report_desc[] = {
 
 void setup(){
     setCpuFrequencyMhz(240);
-    Serial.begin(115200);
-    Serial.println("Starting BLE work!");
+    //Serial.begin(115200);
+    //Serial.println("Starting BLE work!");
     pinMode(LED,OUTPUT);
     pinMode(JOYSTICK,OUTPUT);
     digitalWrite(JOYSTICK,OFF);
@@ -72,6 +72,7 @@ void setup(){
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT, ESP_PWR_LVL_P9); 
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_ADV, ESP_PWR_LVL_P9);
     esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_SCAN ,ESP_PWR_LVL_P9);
+    esp_gatt
     
 
     pServer = BLEDevice::createServer();
@@ -154,5 +155,5 @@ void loop() {
 
     
 
-    delay(5);
+    delay(8);
 }
