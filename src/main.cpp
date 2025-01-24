@@ -124,7 +124,7 @@ void loop() {
     
     x = 21-analogRead(VRX)/128; // 2750 / 64 = 42
     y = 21-analogRead(VRY)/128; // 2730 / 64 = 42
-    
+
     click = (bool)!digitalRead(SW);
     
     
@@ -149,7 +149,7 @@ void loop() {
 
     
 
-    Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
+    //Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
     vTaskDelay(20/portTICK_PERIOD_MS);
 
 }
