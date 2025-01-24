@@ -127,21 +127,13 @@ void loop() {
 
     click = (bool)!digitalRead(SW);
     
+    x+= (x>0) ? -(x>>1) : 1;
+    y += (y>0) ? -(y>>1) : 1;
     
     if(abs(x)>10) x/=2;
     if(abs(y)>10) y/=2;
 
 
-    if (x>0){
-      x/=2;
-    } else {
-      x+=2;
-    }
-    if (y>0){
-      y/=2; 
-    } else {
-      y += 2;
-    }
     //+Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
 
     if(y){
