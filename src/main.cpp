@@ -146,13 +146,17 @@ void loop() {
 
     if(y){
       move(click,x,y);
+      delay(8);
     } else if(x){
       move(click,x);
+      delay(8);
     } else if(click){
       move(click);
+      delay(8);
+    } else {
+      delay(1);
     }
 
     
 
-    delay(8);
 }
