@@ -109,8 +109,8 @@ void setup(){
 }
 
 int x = 0;
-  int y = 0;
-  uint8_t click = 0;
+int y = 0;
+uint8_t click = 0;
 void loop() {
 
     if(!connected){
@@ -134,9 +134,13 @@ void loop() {
 
     if (x>0){
       x/=2;
-    } 
+    } else {
+      x-=5;
+    }
     if (y>0){
       y/=2; 
+    } else {
+      y -= 5;
     }
     Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
 
