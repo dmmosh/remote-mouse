@@ -60,7 +60,7 @@ void setup(){
     //Serial.println("Starting BLE work!");
     pinMode(LED,OUTPUT);
     pinMode(JOYSTICK,OUTPUT);
-    digitalWrite(JOYSTICK,HIGH);
+    digitalWrite(JOYSTICK,LOW);
     digitalWrite(LED,OFF);
 
     
