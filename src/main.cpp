@@ -56,7 +56,7 @@ const uint8_t mouse_report_desc[] = {
 
 void setup(){
     setCpuFrequencyMhz(240);
-    //Serial.begin(115200);
+    Serial.begin(115200);
     //Serial.println("Starting BLE work!");
     pinMode(LED,OUTPUT);
     pinMode(JOYSTICK,OUTPUT);
@@ -64,44 +64,44 @@ void setup(){
     digitalWrite(LED,OFF);
 
     
-    //analogSetAttenuation(ADC_11db);
+    // //analogSetAttenuation(ADC_11db);
 
-    BLEDevice::init("Remote Mouse");
-    //BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
+    // BLEDevice::init("Remote Mouse");
+    // //BLEDevice::setCustomGattsHandler(my_gatts_event_handler);
 
-    esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT, ESP_PWR_LVL_P9); 
-    esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_ADV, ESP_PWR_LVL_P9);
-    esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_SCAN ,ESP_PWR_LVL_P9);
+    // esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_DEFAULT, ESP_PWR_LVL_P9); 
+    // esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_ADV, ESP_PWR_LVL_P9);
+    // esp_ble_tx_power_set(ESP_BLE_PWR_TYPE_SCAN ,ESP_PWR_LVL_P9);
     
 
-    pServer = BLEDevice::createServer();
-    pServer->setCallbacks(new MyCallbacks());
-    //pServer->getPeerDevices(false);
+    // pServer = BLEDevice::createServer();
+    // pServer->setCallbacks(new MyCallbacks());
+    // //pServer->getPeerDevices(false);
 
-    hid = new BLEHIDDevice(pServer);
-    input = hid->inputReport(0); // <-- input REPORTID from report map
-    //output = hid->outputReport(1); // <-- output REPORTID from report map
+    // hid = new BLEHIDDevice(pServer);
+    // input = hid->inputReport(0); // <-- input REPORTID from report map
+    // //output = hid->outputReport(1); // <-- output REPORTID from report map
 
 
 
-    hid->pnp(0x02, 0xe502, 0xa111, 0x0210);
-    hid->hidInfo(0x00,0x02);
+    // hid->pnp(0x02, 0xe502, 0xa111, 0x0210);
+    // hid->hidInfo(0x00,0x02);
 
-    BLESecurity *pSecurity = new BLESecurity();
-    pSecurity->setAuthenticationMode(ESP_LE_AUTH_BOND);
+    // BLESecurity *pSecurity = new BLESecurity();
+    // pSecurity->setAuthenticationMode(ESP_LE_AUTH_BOND);
 
-    hid->reportMap((uint8_t*)mouse_report_desc,sizeof(mouse_report_desc));
+    // hid->reportMap((uint8_t*)mouse_report_desc,sizeof(mouse_report_desc));
 
-    hid->startServices();
+    // hid->startServices();
 
-    pAdvertising = pServer->getAdvertising();
-    pAdvertising->setAppearance(HID_MOUSE);
-    pAdvertising->addServiceUUID(hid->hidService()->getUUID());
-    pAdvertising->start();
+    // pAdvertising = pServer->getAdvertising();
+    // pAdvertising->setAppearance(HID_MOUSE);
+    // pAdvertising->addServiceUUID(hid->hidService()->getUUID());
+    // pAdvertising->start();
 
    
     
-    hid->setBatteryLevel(100);
+    // hid->setBatteryLevel(100);
     digitalWrite(LED,ON);
   
     pinMode(SW, INPUT_PULLUP);
@@ -113,13 +113,13 @@ int y = 0;
 uint8_t click = 0;
 void loop() {
 
-    if(!connected){
-      digitalWrite(JOYSTICK, OFF);
-      pAdvertising->start();
-      connect_wait();
-      digitalWrite(JOYSTICK, ON);
-      digitalWrite(LED,ON);
-    }  
+    // if(!connected){
+    //   digitalWrite(JOYSTICK, OFF);
+    //   pAdvertising->start();
+    //   connect_wait();
+    //   digitalWrite(JOYSTICK, ON);
+    //   digitalWrite(LED,ON);
+    // }  
     
     
     x = (21-analogRead(VRX)/128)>>2; // 2750 / 64 = 42
@@ -134,20 +134,11 @@ void loop() {
     if(abs(y)>10) y/=2;
 
 
+
     //+Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
 
-    if(y){
-      move(click,x,y);
-      delay(8);
-    } else if(x){
-      move(click,x);
-      delay(8);
-    } else if(click){
-      move(click);
-      delay(8);
-    } else {
-      delay(1);
-    }
+    Serial.printf("%i %i %i\n",click,x,y);
+    delay(1);
 
     
 
