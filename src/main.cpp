@@ -20,6 +20,8 @@ void setup(){
     pinMode(JOYSTICK,OUTPUT);
     digitalWrite(JOYSTICK,HIGH);
     digitalWrite(LED,OFF);
+    SerialBT.begin("Remote Mouse");
+
 
     connected = false;
     x = 0; y= 0; click = 0;
@@ -50,15 +52,12 @@ void loop() {
 
     // 3325 max on both
 
-    x = analogRead(VRX) >>8;
-    y= analogRead(VRY)>>8;
+    if(SerialBT.available()){
+      x = analogRead(VRX) >>8;
+      y= analogRead(VRY)>>8;
+      Serial.printf("%i %i %i\n",click,x,y);
 
-
-
-
-    //+Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
-
-    Serial.printf("%i %i %i\n",click,x,y);
+    }
     delay(1);
 
     
