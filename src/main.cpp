@@ -10,8 +10,7 @@ BLEScan* pBLEScan;
 bool connected =false;
 
 /*
-pio run --target upload && git-all && pio target monitor -b 115200
-
+git-all && pio run --target upload --target monitor
 */
 
 
