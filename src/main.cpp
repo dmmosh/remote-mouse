@@ -4,7 +4,7 @@
 bool connected;
 int16_t x,y;
 uint8_t click;
-BluetoothSerial SerialBT;
+const char *TAG = "Remote Mouse";
 
 
 /*
@@ -20,7 +20,6 @@ void setup(){
     pinMode(JOYSTICK,OUTPUT);
     digitalWrite(JOYSTICK,HIGH);
     digitalWrite(LED,OFF);
-    SerialBT.begin("Remote Mouse");
 
 
     connected = false;
@@ -34,19 +33,7 @@ void setup(){
 
 void loop() {
 
-    if(!SerialBT.hasClient()){
-      uint16_t ms = 0;
-      bool on = true;
-      while(!SerialBT.hasClient()){
-        if(!(ms%1000)){
-          on = ~on;
-          digitalWrite(LED,on);
-        }
-        ms++;
-        delay(1);
-      }
-      digitalWrite(LED,ON);
-    }
+    
 
     // if(!connected){
     //   digitalWrite(JOYSTICK, OFF);
@@ -66,12 +53,10 @@ void loop() {
 
     // 3325 max on both
 
-    if(SerialBT.available()){
       x = analogRead(VRX) >>8;
       y= analogRead(VRY)>>8;
       Serial.printf("%i %i %i\n",click,x,y);
 
-    }
     delay(1);
 
     
