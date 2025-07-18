@@ -126,14 +126,16 @@ void loop() {
     // }  
     
     
-    x = (21-analogRead(VRX)/128)>>2; // 2750 / 64 = 42
-    y = (21-analogRead(VRY)/128)>>2; // 2730 / 64 = 4
-    click = (bool)!digitalRead(SW);
+    // x = (21-analogRead(VRX)/128); // 2750 / 64 = 42
+    // y = (21-analogRead(VRY)/128); // 2730 / 64 = 4
+    // click = (bool)!digitalRead(SW);
 
-    x+= (x>0) ? -(x>>1) : 1;
-    y += (y>0) ? -(y>>1) : 1;
+    // x+= (x>0) ? -(x>>1) : 1;
+    // y += (y>0) ? -(y>>1) : 1;
 
+    x = analogRead(VRX);
 
+    y = analogRead(VRY);
 
 
 
