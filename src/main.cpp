@@ -8,7 +8,7 @@ BLEAdvertising *pAdvertising;
 BLEServer *pServer;
 BLEScan* pBLEScan;
 bool connected =false;
-int x = 0, y= 0, x_baseline, y_baseline;
+int16_t x = 0, y= 0;
 uint8_t click = 0;
 
 /*
@@ -67,8 +67,6 @@ void setup(){
     pinMode(LED,OUTPUT);
     pinMode(JOYSTICK,OUTPUT);
     digitalWrite(JOYSTICK,HIGH);
-    x_baseline = analogRead(VRX);
-    x_baseline = analogRead(VRY);
     digitalWrite(LED,OFF);
 
     
@@ -136,13 +134,15 @@ void loop() {
 
     // 3325 max on both
 
+    x = analogRead(VRX);
+    y= analogRead(VRY);
 
 
 
 
     //+Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
 
-    Serial.printf("%i %i %i\n",click,x_baseline,y_baseline);
+    Serial.printf("%i %i %i\n",click,x,y);
     delay(1);
 
     
