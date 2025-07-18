@@ -26,13 +26,27 @@ void setup(){
     connected = false;
     x = 0; y= 0; click = 0;
 
-    digitalWrite(LED,ON);
   
+    digitalWrite(LED,ON);
     pinMode(SW, INPUT_PULLUP);
     loop();
 }
 
 void loop() {
+
+    if(!SerialBT.hasClient()){
+      uint16_t ms = 0;
+      bool on = true;
+      while(!SerialBT.hasClient()){
+        if(!(ms%1000)){
+          on = ~on;
+          digitalWrite(LED,on);
+        }
+        ms++;
+        delay(1);
+      }
+      digitalWrite(LED,ON);
+    }
 
     // if(!connected){
     //   digitalWrite(JOYSTICK, OFF);
