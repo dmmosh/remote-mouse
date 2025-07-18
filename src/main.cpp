@@ -9,6 +9,12 @@ BLEServer *pServer;
 BLEScan* pBLEScan;
 bool connected =false;
 
+/*
+
+pio run --target upload && git-all && pio target monitor -b 115200
+
+*/
+
 
 // HID Report Descriptor (for Mouse)
 const uint8_t mouse_report_desc[] = {
@@ -122,16 +128,20 @@ void loop() {
     // }  
     
     
-    x = (21-analogRead(VRX)/128)>>2; // 2750 / 64 = 42
-    y = (21-analogRead(VRY)/128)>>2; // 2730 / 64 = 42
+    //x = (21-analogRead(VRX)/128)>>2; // 2750 / 64 = 42
+    //y = (21-analogRead(VRY)/128)>>2; // 2730 / 64 = 42
 
     click = (bool)!digitalRead(SW);
     
-    x+= (x>0) ? -(x>>1) : 1;
-    y += (y>0) ? -(y>>1) : 1;
+    //x+= (x>0) ? -(x>>1) : 1;
+    //y += (y>0) ? -(y>>1) : 1;
     
-    if(abs(x)>10) x/=2;
-    if(abs(y)>10) y/=2;
+    
+    //if(abs(x)>10) x/=2;
+    //if(abs(y)>10) y/=2;
+
+    x = analogRead(VRX);
+    y = analogRead(VRY);
 
 
 
