@@ -8,6 +8,8 @@ BLEAdvertising *pAdvertising;
 BLEServer *pServer;
 BLEScan* pBLEScan;
 bool connected =false;
+int x = 0, y= 0, x_baseline, y_baseline;
+uint8_t click = 0;
 
 /*
 git-all && pio run --target upload --target monitor
@@ -65,6 +67,8 @@ void setup(){
     pinMode(LED,OUTPUT);
     pinMode(JOYSTICK,OUTPUT);
     digitalWrite(JOYSTICK,HIGH);
+    x_baseline = analogRead(VRX);
+    x_baseline = analogRead(VRY);
     digitalWrite(LED,OFF);
 
     
@@ -112,9 +116,6 @@ void setup(){
     loop();
 }
 
-int x = 0;
-int y = 0;
-uint8_t click = 0;
 void loop() {
 
     // if(!connected){
@@ -135,17 +136,13 @@ void loop() {
 
     // 3325 max on both
 
-    x = analogRead(VRX);
-    y= analogRead(VRY);
-    if (x>3325) { x = 3325;};
-    if (y >3325) { y= 3325;};
 
 
 
 
     //+Serial.printf("X: %i Y: %i click: %i\n", (int8_t)x,(int8_t)y,click);
 
-    Serial.printf("%i %i %i\n",click,x,y);
+    Serial.printf("%i %i %i\n",click,x_baseline,y_baseline);
     delay(1);
 
     
