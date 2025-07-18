@@ -133,9 +133,13 @@ void loop() {
     // x+= (x>0) ? -(x>>1) : 1;
     // y += (y>0) ? -(y>>1) : 1;
 
-    x = std::max((int)analogRead(VRX),x);
+    // 3325 max on both
 
-    y = std::max((int)analogRead(VRY),y);
+    x = analogRead(VRX);
+    y= analogRead(VRY);
+    if (x>3325) { x = 3325;};
+    if (y >3325) { y= 3325;};
+
 
 
 
