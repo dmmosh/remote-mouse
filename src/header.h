@@ -21,11 +21,15 @@
 #include <BLEDevice.h>
 #include <BLEUtils.h>
 #include <BLEServer.h>
-#include <driver/adc.h>
-#include "BLE2902.h"
-#include "BLEHIDDevice.h"
-#include "HIDTypes.h"
-#include "HIDKeyboardTypes.h"
+#include <BluetoothSerial.h>
+
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "freertos/semphr.h"
+
+#define REPORT_PROTOCOL_MOUSE_REPORT_SIZE      (4)
+#define REPORT_BUFFER_SIZE                     REPORT_PROTOCOL_MOUSE_REPORT_SIZE
+
 
 
 // pins 
@@ -56,16 +60,11 @@
 
 
 // variables for the bluetooth server and hid device
-extern BLEHIDDevice* hid;
-extern BLECharacteristic* input;
-extern BLECharacteristic* output;
-extern BLEAdvertising *pAdvertising;
-extern BLEServer *pServer;
-extern BLEScan* pBLEScan;
+extern const char local_device_name[];
 extern bool connected;
-extern const uint8_t mouse_report_desc[];
 extern int16_t x, y;
 extern uint8_t click;
+extern BluetoothSerial SerialBT;
 
 
 void connect_wait();
@@ -73,25 +72,6 @@ void move(uint8_t click,uint8_t x , uint8_t y);
 void move(uint8_t click,uint8_t x );
 void move(uint8_t click);
 bool str_equals(const char* str1, const char* str2);
-
-void my_gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gattc_if, esp_ble_gatts_cb_param_t* param);
-
-class MyCallbacks : public BLEServerCallbacks {
-  void onConnect(BLEServer* pServer, esp_ble_gatts_cb_param_t *param){
-    connected = true;
-    Serial.println("Connected");
-    // NEEDED ACTIONScdjknckj
-	BLE2902* desc = (BLE2902*)input->getDescriptorByUUID(BLEUUID((uint16_t)0x2902));
-  	desc->setNotifications(true);
-  }
-
-  void onDisconnect(BLEServer* pServer){
-    connected = false;
-    Serial.println("Disconnect");
-	BLE2902* desc = (BLE2902*)input->getDescriptorByUUID(BLEUUID((uint16_t)0x2902));
-  	desc->setNotifications(false);		
-  }
-};
 
 
 
