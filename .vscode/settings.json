@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "nvs_flash.h": "c",
+        "string.h": "c",
+        "semphr.h": "c"
+    }
+}
