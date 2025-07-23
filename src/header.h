@@ -37,6 +37,7 @@ typedef struct {
     esp_hidd_app_param_t app_param;
     esp_hidd_qos_param_t both_qos;
     uint8_t protocol_mode;
+    SemaphoreHandle_t mouse_mutex;
     TaskHandle_t mouse_task_hdl;
     uint8_t buffer[REPORT_BUFFER_SIZE];
     int8_t x_dir;
@@ -48,7 +49,7 @@ extern uint8_t hid_mouse_descriptor[];
 extern const int hid_mouse_descriptor_len;
 
 char *bda2str(esp_bd_addr_t bda, char *str, size_t size);
-inline int same_sign(const int num, const int sign); 
+inline int same_sign(const int num, const int sign);
 bool check_report_id_type(uint8_t report_id, uint8_t report_type);
 void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel);
 void mouse_move_task(void *pvParameters);

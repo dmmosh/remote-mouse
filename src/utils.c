@@ -11,9 +11,9 @@ void mouse_move_task(void *pvParameters)
         // s_local_param.x_dir = 1;
         // int8_t step = 10;
         // for (int i = 0; i < 2; i++) {
-        //     //xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
+        //     xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
         //     s_local_param.x_dir *= -1;
-        //     //xSemaphoreGive(s_local_param.mouse_mutex);
+        //     xSemaphoreGive(s_local_param.mouse_mutex);
         //     for (int j = 0; j < 500; j++) {
         //         send_mouse_report(0, s_local_param.x_dir * step, 0, 0);
         //         vTaskDelay(10 / portTICK_PERIOD_MS);
@@ -45,55 +45,23 @@ inline int same_sign(const int num, const int sign){
 
 void bt_app_task_start_up(void)
 {
-    const char *TAG = "mouse_move_task";
-
-    ESP_LOGI(TAG, "starting");
-    for (;;) {
-        // s_local_param.x_dir = 1;
-        // int8_t step = 10;
-        // for (int i = 0; i < 2; i++) {
-        //     //xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
-        //     s_local_param.x_dir *= -1;
-        //     //xSemaphoreGive(s_local_param.mouse_mutex);
-        //     for (int j = 0; j < 500; j++) {
-        //         send_mouse_report(0, s_local_param.x_dir * step, 0, 0);
-        //         vTaskDelay(10 / portTICK_PERIOD_MS);
-        //     }
-        // }
-        int vrx, vry, sw;
-        adc2_get_raw(VRX, ADC_WIDTH_BIT_12, &vrx);
-        adc2_get_raw(VRY, ADC_WIDTH_BIT_12, &vry);
-        vrx = -11 + vrx/128;
-        vry = -11 + vry/128;
-        
-        vrx = (vrx>= -2 && vrx <= 2) ? 0 : (vrx>=14 || vrx <=-11) ? same_sign(20,vrx) : vrx;
-        vry = (vry>= -2 && vry <= 2) ? 0 : (vry>=14 || vry <=-11) ? same_sign(20,vry) : vry;
-        
-
-
-        sw = !gpio_get_level(SW);
-        //ESP_LOGI(TAG, "vrx: %i, vry: %i, sw: %i", vrx,vry,sw);
-        send_mouse_report(sw,-vrx,-vry,0);
-        vTaskDelay(6 / portTICK_PERIOD_MS);
-    }
-
-    // s_local_param.mouse_mutex = xSemaphoreCreateMutex();
-    // memset(s_local_param.buffer, 0, REPORT_BUFFER_SIZE);
-    // xTaskCreate(mouse_move_task, "mouse_move_task", 2 * 1024, NULL, configMAX_PRIORITIES - 3, &s_local_param.mouse_task_hdl);
-    // return;
+    s_local_param.mouse_mutex = xSemaphoreCreateMutex();
+    memset(s_local_param.buffer, 0, REPORT_BUFFER_SIZE);
+    xTaskCreate(mouse_move_task, "mouse_move_task", 2 * 1024, NULL, configMAX_PRIORITIES - 3, &s_local_param.mouse_task_hdl);
+    return;
 }
 
 void bt_app_task_shut_down(void)
 {
-    // if (s_local_param.mouse_task_hdl) {
-    //     vTaskDelete(s_local_param.mouse_task_hdl);
-    //     s_local_param.mouse_task_hdl = NULL;
-    // }
+    if (s_local_param.mouse_task_hdl) {
+        vTaskDelete(s_local_param.mouse_task_hdl);
+        s_local_param.mouse_task_hdl = NULL;
+    }
 
-    // if (s_local_param.mouse_mutex) {
-    //     vSemaphoreDelete(s_local_param.mouse_mutex);
-    //     s_local_param.mouse_mutex = NULL;
-    // }
+    if (s_local_param.mouse_mutex) {
+        vSemaphoreDelete(s_local_param.mouse_mutex);
+        s_local_param.mouse_mutex = NULL;
+    }
     return;
 }
 
@@ -122,7 +90,7 @@ char *bda2str(esp_bd_addr_t bda, char *str, size_t size)
 bool check_report_id_type(uint8_t report_id, uint8_t report_type)
 {
     bool ret = false;
-    ////xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
+    xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
     do {
         if (report_type != ESP_HIDD_REPORT_TYPE_INPUT) {
             break;
@@ -147,7 +115,7 @@ bool check_report_id_type(uint8_t report_id, uint8_t report_type)
             esp_bt_hid_device_report_error(ESP_HID_PAR_HANDSHAKE_RSP_ERR_INVALID_REP_ID);
         }
     }
-    //xSemaphoreGive(s_local_param.mouse_mutex);
+    xSemaphoreGive(s_local_param.mouse_mutex);
     return ret;
 }
 
@@ -156,7 +124,8 @@ void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel)
 {
     uint8_t report_id;
     uint16_t report_size;
-    //xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
+    
+    xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
     if (s_local_param.protocol_mode == ESP_HIDD_REPORT_MODE) {
         report_id = 0;
         report_size = REPORT_PROTOCOL_MOUSE_REPORT_SIZE;
@@ -173,7 +142,7 @@ void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel)
         s_local_param.buffer[2] = dy;
     }
     esp_bt_hid_device_send_report(ESP_HIDD_REPORT_TYPE_INTRDATA, report_id, report_size, s_local_param.buffer);
-    //xSemaphoreGive(s_local_param.mouse_mutex);
+    xSemaphoreGive(s_local_param.mouse_mutex);
 }
 
 void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
@@ -321,9 +290,9 @@ void esp_bt_hidd_cb(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *param)
                 report_id = ESP_HIDD_BOOT_REPORT_ID_MOUSE;
                 report_len = ESP_HIDD_BOOT_REPORT_SIZE_MOUSE - 1;
             }
-            //xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
+            xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
             esp_bt_hid_device_send_report(param->get_report.report_type, report_id, report_len, s_local_param.buffer);
-            //xSemaphoreGive(s_local_param.mouse_mutex);
+            xSemaphoreGive(s_local_param.mouse_mutex);
         } else {
             ESP_LOGE(TAG, "check_report_id failed!");
         }
@@ -335,15 +304,15 @@ void esp_bt_hidd_cb(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *param)
         ESP_LOGI(TAG, "ESP_HIDD_SET_PROTOCOL_EVT");
         if (param->set_protocol.protocol_mode == ESP_HIDD_BOOT_MODE) {
             ESP_LOGI(TAG, "  - boot protocol");
-            //xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
+            xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
             s_local_param.x_dir = -1;
-            //xSemaphoreGive(s_local_param.mouse_mutex);
+            xSemaphoreGive(s_local_param.mouse_mutex);
         } else if (param->set_protocol.protocol_mode == ESP_HIDD_REPORT_MODE) {
             ESP_LOGI(TAG, "  - report protocol");
         }
-        //xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
+        xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
         s_local_param.protocol_mode = param->set_protocol.protocol_mode;
-        //xSemaphoreGive(s_local_param.mouse_mutex);
+        xSemaphoreGive(s_local_param.mouse_mutex);
         break;
     case ESP_HIDD_INTR_DATA_EVT:
         ESP_LOGI(TAG, "ESP_HIDD_INTR_DATA_EVT");
