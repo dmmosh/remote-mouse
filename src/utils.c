@@ -62,7 +62,7 @@ void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel, uint8_t pr
         buffer[1] = dx;
         buffer[2] = dy;
     }
-    esp_bt_hid_device_send_report(ESP_HIDD_REPORT_TYPE_INTRDATA, report_id, report_size, s_local_param.buffer);
+    esp_bt_hid_device_send_report(ESP_HIDD_REPORT_TYPE_INTRDATA, report_id, report_size, buffer);
 }
 
 inline int same_sign(const int num, const int sign){
