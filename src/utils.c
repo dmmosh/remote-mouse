@@ -37,7 +37,7 @@ void mouse_move_task(void *pvParameters)
         sw = !gpio_get_level(SW);
         //ESP_LOGI(TAG, "vrx: %i, vry: %i, sw: %i", vrx,vry,sw);
         send_mouse_report(sw,-vrx,-vry,0, protocol_mode);
-        vTaskDelay(pdMS_TO_TICKS(10));
+        vTaskDelay(pdMS_TO_TICKS(9));
     }
 }
 // send the buttons, change in x, and change in y
