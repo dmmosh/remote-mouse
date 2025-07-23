@@ -84,9 +84,7 @@ uint8_t hid_mouse_descriptor[] = {
      }
  
      esp_bluedroid_config_t bluedroid_cfg = BT_BLUEDROID_INIT_CONFIG_DEFAULT();
- #if (CONFIG_EXAMPLE_SSP_ENABLED == false)
-     bluedroid_cfg.ssp_en = false;
- #endif
+     bluedroid_cfg.ssp_en = true;
      if ((ret = esp_bluedroid_init_with_cfg(&bluedroid_cfg)) != ESP_OK) {
          ESP_LOGE(TAG, "%s initialize bluedroid failed: %s", __func__, esp_err_to_name(ret));
          return;
@@ -134,6 +132,11 @@ uint8_t hid_mouse_descriptor[] = {
  
      ESP_LOGI(TAG, "starting hid device");
      esp_bt_hid_device_init();
+
+     /* Set default parameters for Secure Simple Pairing */
+    esp_bt_sp_param_t param_type = ESP_BT_SP_IOCAP_MODE;
+    esp_bt_io_cap_t iocap = ESP_BT_IO_CAP_NONE;
+    esp_bt_gap_set_security_param(param_type, &iocap, sizeof(uint8_t));
  
      /*
       * Set default parameters for Legacy Pairing
