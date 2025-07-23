@@ -11,6 +11,8 @@
 #include "nvs.h"
 #include "nvs_flash.h"
 #include "esp_gap_bt_api.h"
+#include "driver/gpio.h"
+#include "driver/adc.h"
 #include <string.h>
 #include <inttypes.h>
 
@@ -22,6 +24,14 @@
 #define REPORT_BUFFER_SIZE                     REPORT_PROTOCOL_MOUSE_REPORT_SIZE
 #define LED 2
 
+#define VRX ADC2_CHANNEL_4 // pin 13
+#define VRY ADC2_CHANNEL_5 // pin 12
+#define SW 14 
+#define TRANSISTOR 27 
+#define GPIO_OUTPUT_PINS ((1ULL << TRANSISTOR)) //outputs power to pin 27 
+#define GPIO_INPUT_PINS ((1ULL<< SW))
+#define ON 1
+#define OFF 0
 
 typedef struct {
     esp_hidd_app_param_t app_param;
@@ -39,6 +49,7 @@ extern uint8_t hid_mouse_descriptor[];
 extern const int hid_mouse_descriptor_len;
 
 char *bda2str(esp_bd_addr_t bda, char *str, size_t size);
+inline void joystick();
 bool check_report_id_type(uint8_t report_id, uint8_t report_type);
 void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel);
 void mouse_move_task(void *pvParameters);

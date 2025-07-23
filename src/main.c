@@ -59,6 +59,37 @@ uint8_t hid_mouse_descriptor[] = {
  
  void app_main(void)
  {
+
+
+    // configures the digital inputs/ outputs
+
+    gpio_config_t io_out_conf = {
+        .pin_bit_mask = GPIO_OUTPUT_PINS,
+        .mode = GPIO_MODE_OUTPUT,
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .pull_up_en = GPIO_PULLUP_DISABLE,
+        .intr_type = GPIO_INTR_DISABLE
+    };
+    gpio_config(&io_out_conf);
+
+
+    // Configure input pins (sw)
+    gpio_config_t io_in_conf = {
+        .pin_bit_mask = GPIO_INPUT_PINS,
+        .mode = GPIO_MODE_INPUT,
+        .pull_up_en = GPIO_PULLUP_ENABLE,  // Optional
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .intr_type = GPIO_INTR_DISABLE
+    };
+    gpio_config(&io_in_conf);
+
+    // configures the analog inputs
+
+    adc2_config_channel_atten(VRX, ADC_ATTEN_DB_11); // 0 to 3.3 v
+    adc2_config_channel_atten(VRY, ADC_ATTEN_DB_11); // o to 3.3 v
+    
+
+
      const char *TAG = "app_main";
      esp_err_t ret;
      char bda_str[18] = {0};
@@ -148,5 +179,6 @@ uint8_t hid_mouse_descriptor[] = {
 
  
      ESP_LOGI(TAG, "Own address:[%s]", bda2str((uint8_t *)esp_bt_dev_get_address(), bda_str, sizeof(bda_str)));
-     ESP_LOGI(TAG, "exiting");
+     ESP_LOGI(TAG, "waiting for user to connnect...");
+     gpio_set_level(TRANSISTOR,ON);
  }

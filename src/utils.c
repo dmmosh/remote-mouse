@@ -8,20 +8,32 @@ void mouse_move_task(void *pvParameters)
 
     ESP_LOGI(TAG, "starting");
     for (;;) {
-        s_local_param.x_dir = 1;
-        int8_t step = 10;
-        for (int i = 0; i < 2; i++) {
-            xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
-            s_local_param.x_dir *= -1;
-            xSemaphoreGive(s_local_param.mouse_mutex);
-            for (int j = 0; j < 500; j++) {
-                send_mouse_report(0, s_local_param.x_dir * step, 0, 0);
-                vTaskDelay(10 / portTICK_PERIOD_MS);
-            }
-        }
+        // s_local_param.x_dir = 1;
+        // int8_t step = 10;
+        // for (int i = 0; i < 2; i++) {
+        //     xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
+        //     s_local_param.x_dir *= -1;
+        //     xSemaphoreGive(s_local_param.mouse_mutex);
+        //     for (int j = 0; j < 500; j++) {
+        //         send_mouse_report(0, s_local_param.x_dir * step, 0, 0);
+        //         vTaskDelay(10 / portTICK_PERIOD_MS);
+        //     }
+        // }
+        uint16_t vrx, vry, sw;
+        adc2_get_raw(VRX, ADC_WIDTH_BIT_12, &vrx);
+        adc2_get_raw(VRY, ADC_WIDTH_BIT_12, &vry);
+        sw = gpio_get_level(SW);
+        ESP_LOGI(TAG, "vrx: %i, vry: %i, sw: %i", vrx,vry,sw);
+
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 }
+
+inline void joystick(){
+
+}
+
+
 
 void bt_app_task_start_up(void)
 {
