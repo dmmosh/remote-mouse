@@ -114,10 +114,10 @@ uint8_t hid_mouse_descriptor[] = {
          return;
      }
 
-    //  if ((ret = esp_bredr_tx_power_set(ESP_PWR_LVL_N6, ESP_PWR_LVL_P9)) != ESP_OK) { 
-    //     ESP_LOGE(TAG, "setting power level failed: %s", esp_err_to_name(ret));
-    //     return;
-    // }
+     if ((ret = esp_bredr_tx_power_set(ESP_PWR_LVL_N6, ESP_PWR_LVL_P9)) != ESP_OK) { 
+        ESP_LOGE(TAG, "setting power level failed: %s", esp_err_to_name(ret));
+        return;
+    }
  
      esp_bluedroid_config_t bluedroid_cfg = BT_BLUEDROID_INIT_CONFIG_DEFAULT();
      bluedroid_cfg.ssp_en = true;
