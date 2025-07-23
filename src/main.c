@@ -104,7 +104,7 @@ uint8_t hid_mouse_descriptor[] = {
      ESP_LOGI(TAG, "setting cod major, peripheral");
      esp_bt_cod_t cod = {0};
      cod.major = ESP_BT_COD_MAJOR_DEV_PERIPHERAL;
-     cod.minor = ESP_HID_CLASS_MIC;
+     cod.minor = 0x20;
      esp_bt_gap_set_cod(cod, ESP_BT_SET_COD_MAJOR_MINOR);
  
      vTaskDelay(2000 / portTICK_PERIOD_MS);
