@@ -8,30 +8,6 @@ void mouse_move_task(void *pvParameters)
 
     ESP_LOGI(TAG, "starting");
     for (;;) {
-
-        // s_local_param.x_dir = 1;
-        // int8_t step = 10;
-        // for (int i = 0; i < 2; i++) {
-        //     xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
-        //     s_local_param.x_dir *= -1;
-        //     xSemaphoreGive(s_local_param.mouse_mutex);
-        //     for (int j = 0; j < 100; j++) {
-        //         send_mouse_report(0, s_local_param.x_dir * step, 0, 0);
-        //         vTaskDelay(50 / portTICK_PERIOD_MS);
-        //     }
-        // }
-        send_mouse_report(0,10,0,0);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-    }
-}
-
-void bt_app_task_start_up(void)
-{
-    const char *TAG = "mouse_move_task";
-
-    ESP_LOGI(TAG, "starting");
-    for (;;) {
-
         s_local_param.x_dir = 1;
         int8_t step = 10;
         for (int i = 0; i < 2; i++) {
@@ -45,10 +21,14 @@ void bt_app_task_start_up(void)
         }
         vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
-    // s_local_param.mouse_mutex = xSemaphoreCreateMutex();
-    // memset(s_local_param.buffer, 0, REPORT_BUFFER_SIZE);
-    // xTaskCreate(mouse_move_task, "mouse_move_task", 2 * 1024, NULL, configMAX_PRIORITIES - 3, &s_local_param.mouse_task_hdl);
-    // return;
+}
+
+void bt_app_task_start_up(void)
+{
+    s_local_param.mouse_mutex = xSemaphoreCreateMutex();
+    memset(s_local_param.buffer, 0, REPORT_BUFFER_SIZE);
+    xTaskCreate(mouse_move_task, "mouse_move_task", 2 * 1024, NULL, configMAX_PRIORITIES - 3, &s_local_param.mouse_task_hdl);
+    return;
 }
 
 void bt_app_task_shut_down(void)
