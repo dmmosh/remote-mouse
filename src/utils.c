@@ -156,9 +156,6 @@ void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel)
 {
     uint8_t report_id;
     uint16_t report_size;
-    uint8_t buffer[REPORT_BUFFER_SIZE] = {0,0,0,0};
-
-    
     //xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
     if (s_local_param.protocol_mode == ESP_HIDD_REPORT_MODE) {
         report_id = 0;
