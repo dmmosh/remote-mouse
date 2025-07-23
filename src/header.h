@@ -51,7 +51,7 @@ extern const int hid_mouse_descriptor_len;
 char *bda2str(esp_bd_addr_t bda, char *str, size_t size);
 inline int same_sign(const int num, const int sign);
 bool check_report_id_type(uint8_t report_id, uint8_t report_type);
-void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel);
+void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel, uint8_t protocol_mode)
 void mouse_move_task(void *pvParameters);
 void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param);
 void bt_app_task_start_up(void);
