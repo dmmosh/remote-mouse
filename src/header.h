@@ -47,7 +47,6 @@ extern local_param_t s_local_param;
 extern const char local_device_name[];
 extern uint8_t hid_mouse_descriptor[];
 extern const int hid_mouse_descriptor_len;
-extern bool connected;
 
 char *bda2str(esp_bd_addr_t bda, char *str, size_t size);
 inline int same_sign(const int num, const int sign);

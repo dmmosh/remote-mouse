@@ -11,7 +11,6 @@
 
 
 const char local_device_name[] = "Remote Mouse";
-bool connected = false;
 
  
 local_param_t s_local_param = {0};
