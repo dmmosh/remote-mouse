@@ -139,8 +139,6 @@ uint8_t hid_mouse_descriptor[] = {
      esp_bt_pin_code_t pin_code;
      esp_bt_gap_set_pin(pin_type, 0, pin_code);
 
-     esp_bt_io_cap_t iocap = ESP_BT_IO_CAP_NONE;  // No input, no output
-    esp_bt_gap_set_security_param(ESP_BT_SP_IOCAP_MODE, &iocap, sizeof(uint8_t));
  
      ESP_LOGI(TAG, "Own address:[%s]", bda2str((uint8_t *)esp_bt_dev_get_address(), bda_str, sizeof(bda_str)));
      ESP_LOGI(TAG, "exiting");
