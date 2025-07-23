@@ -4,7 +4,11 @@
 // move the mouse left and right
 void mouse_move_task(void *pvParameters)
 {
+    xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
     const char *TAG = "mouse_move_task";
+    uint8_t protocol_mode = s_local_param.protocol_mode;
+    xSemaphoreGive(s_local_param.mouse_mutex);
+
 
     ESP_LOGI(TAG, "starting");
     for (;;) {
@@ -32,9 +36,33 @@ void mouse_move_task(void *pvParameters)
 
         sw = !gpio_get_level(SW);
         //ESP_LOGI(TAG, "vrx: %i, vry: %i, sw: %i", vrx,vry,sw);
-        send_mouse_report(sw,-vrx,-vry,0);
+        send_mouse_report(sw,-vrx,-vry,0, protocol_mode);
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
+}
+// send the buttons, change in x, and change in y
+void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel, uint8_t protocol_mode)
+{
+    uint8_t report_id;
+    uint16_t report_size;
+    uint8_t buffer[REPORT_BUFFER_SIZE];
+    
+    if (protocol_mode == ESP_HIDD_REPORT_MODE) {
+        report_id = 0;
+        report_size = REPORT_PROTOCOL_MOUSE_REPORT_SIZE;
+        buffer[0] = buttons;
+        buffer[1] = dx;
+        buffer[2] = dy;
+        buffer[3] = wheel;
+    } else {
+        // Boot Mode
+        report_id = ESP_HIDD_BOOT_REPORT_ID_MOUSE;
+        report_size = ESP_HIDD_BOOT_REPORT_SIZE_MOUSE - 1;
+        buffer[0] = buttons;
+        buffer[1] = dx;
+        buffer[2] = dy;
+    }
+    esp_bt_hid_device_send_report(ESP_HIDD_REPORT_TYPE_INTRDATA, report_id, report_size, s_local_param.buffer);
 }
 
 inline int same_sign(const int num, const int sign){
@@ -119,31 +147,7 @@ bool check_report_id_type(uint8_t report_id, uint8_t report_type)
     return ret;
 }
 
-// send the buttons, change in x, and change in y
-void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel)
-{
-    uint8_t report_id;
-    uint16_t report_size;
-    
-    xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
-    if (s_local_param.protocol_mode == ESP_HIDD_REPORT_MODE) {
-        report_id = 0;
-        report_size = REPORT_PROTOCOL_MOUSE_REPORT_SIZE;
-        s_local_param.buffer[0] = buttons;
-        s_local_param.buffer[1] = dx;
-        s_local_param.buffer[2] = dy;
-        s_local_param.buffer[3] = wheel;
-    } else {
-        // Boot Mode
-        report_id = ESP_HIDD_BOOT_REPORT_ID_MOUSE;
-        report_size = ESP_HIDD_BOOT_REPORT_SIZE_MOUSE - 1;
-        s_local_param.buffer[0] = buttons;
-        s_local_param.buffer[1] = dx;
-        s_local_param.buffer[2] = dy;
-    }
-    esp_bt_hid_device_send_report(ESP_HIDD_REPORT_TYPE_INTRDATA, report_id, report_size, s_local_param.buffer);
-    xSemaphoreGive(s_local_param.mouse_mutex);
-}
+
 
 void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
 {
