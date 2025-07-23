@@ -22,8 +22,8 @@ void mouse_move_task(void *pvParameters)
         int vrx, vry, sw;
         adc2_get_raw(VRX, ADC_WIDTH_BIT_12, &vrx);
         adc2_get_raw(VRY, ADC_WIDTH_BIT_12, &vry);
-        vrx /=12;
-        vry /=12;
+        vrx /=16;
+        vry /=16;
 
         sw = !gpio_get_level(SW);
         ESP_LOGI(TAG, "vrx: %i, vry: %i, sw: %i", vrx,vry,sw);
