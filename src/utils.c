@@ -39,7 +39,7 @@ void mouse_move_task(void *pvParameters)
         sw = !gpio_get_level(SW);
         //ESP_LOGI(TAG, "vrx: %i, vry: %i, sw: %i", vrx,vry,sw);
         send_mouse_report(sw,-vrx,-vry,0, protocol_mode);
-        vTaskDelay(pdMS_TO_TICKS(9));
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 // send the buttons, change in x, and change in y
@@ -75,23 +75,60 @@ inline int same_sign(const int num, const int sign){
 
 void bt_app_task_start_up(void)
 {
-    s_local_param.mouse_mutex = xSemaphoreCreateMutex();
-    memset(s_local_param.buffer, 0, REPORT_BUFFER_SIZE);
-    xTaskCreate(mouse_move_task, "mouse_move_task", 2 * 1024, NULL, configMAX_PRIORITIES - 3, &s_local_param.mouse_task_hdl);
-    return;
+    xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
+    const char *TAG = "mouse_move_task";
+    uint8_t protocol_mode = s_local_param.protocol_mode;
+    xSemaphoreGive(s_local_param.mouse_mutex);
+
+
+    ESP_LOGI(TAG, "starting");
+    for (;;) {
+        // s_local_param.x_dir = 1;
+        // int8_t step = 10;
+        // for (int i = 0; i < 2; i++) {
+        //     xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
+        //     s_local_param.x_dir *= -1;
+        //     xSemaphoreGive(s_local_param.mouse_mutex);
+        //     for (int j = 0; j < 500; j++) {
+        //         send_mouse_report(0, s_local_param.x_dir * step, 0, 0);
+        //         vTaskDelay(10 / portTICK_PERIOD_MS);
+        //     }
+        // }
+        int vrx, vry, sw;
+        adc2_get_raw(VRX, ADC_WIDTH_BIT_12, &vrx);
+        adc2_get_raw(VRY, ADC_WIDTH_BIT_12, &vry);
+        vrx = -11 + vrx/128;
+        vry = -11 + vry/128;
+        
+        vrx = (vrx>= -2 && vrx <= 2) ? 0 : (vrx>=14 || vrx <=-11) ? same_sign(20,vrx) : vrx;
+        vry = (vry>= -2 && vry <= 2) ? 0 : (vry>=14 || vry <=-11) ? same_sign(20,vry) : vry;
+        
+        vrx /=2;
+        vry /=2;
+
+
+        sw = !gpio_get_level(SW);
+        //ESP_LOGI(TAG, "vrx: %i, vry: %i, sw: %i", vrx,vry,sw);
+        send_mouse_report(sw,-vrx,-vry,0, protocol_mode);
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
+    // s_local_param.mouse_mutex = xSemaphoreCreateMutex();
+    // memset(s_local_param.buffer, 0, REPORT_BUFFER_SIZE);
+    // xTaskCreate(mouse_move_task, "mouse_move_task", 2 * 1024, NULL, configMAX_PRIORITIES - 3, &s_local_param.mouse_task_hdl);
+    // return;
 }
 
 void bt_app_task_shut_down(void)
 {
-    if (s_local_param.mouse_task_hdl) {
-        vTaskDelete(s_local_param.mouse_task_hdl);
-        s_local_param.mouse_task_hdl = NULL;
-    }
+    // if (s_local_param.mouse_task_hdl) {
+    //     vTaskDelete(s_local_param.mouse_task_hdl);
+    //     s_local_param.mouse_task_hdl = NULL;
+    // }
 
-    if (s_local_param.mouse_mutex) {
-        vSemaphoreDelete(s_local_param.mouse_mutex);
-        s_local_param.mouse_mutex = NULL;
-    }
+    // if (s_local_param.mouse_mutex) {
+    //     vSemaphoreDelete(s_local_param.mouse_mutex);
+    //     s_local_param.mouse_mutex = NULL;
+    // }
     return;
 }
 
