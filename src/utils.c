@@ -1,6 +1,32 @@
 #include "header.h"
 
 
+// move the mouse left and right
+void mouse_move_task(void *pvParameters)
+{
+    const char *TAG = "mouse_move_task";
+
+    ESP_LOGI(TAG, "starting");
+    for (;;) {
+        xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
+
+        s_local_param.x_dir = 1;
+        int8_t step = 10;
+        for (int i = 0; i < 2; i++) {
+            xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
+            s_local_param.x_dir *= -1;
+            xSemaphoreGive(s_local_param.mouse_mutex);
+            for (int j = 0; j < 100; j++) {
+                send_mouse_report(0, s_local_param.x_dir * step, 0, 0);
+                vTaskDelay(50 / portTICK_PERIOD_MS);
+            }
+        }
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }
+}
+
+
+
 char *bda2str(esp_bd_addr_t bda, char *str, size_t size)
 {
     if (bda == NULL || str == NULL || size < 18) {
@@ -75,28 +101,6 @@ void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel)
     }
     esp_bt_hid_device_send_report(ESP_HIDD_REPORT_TYPE_INTRDATA, report_id, report_size, s_local_param.buffer);
     xSemaphoreGive(s_local_param.mouse_mutex);
-}
-
-// move the mouse left and right
-void mouse_move_task(void *pvParameters)
-{
-    const char *TAG = "mouse_move_task";
-
-    ESP_LOGI(TAG, "starting");
-    for (;;) {
-        s_local_param.x_dir = 1;
-        int8_t step = 10;
-        for (int i = 0; i < 2; i++) {
-            xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
-            s_local_param.x_dir *= -1;
-            xSemaphoreGive(s_local_param.mouse_mutex);
-            for (int j = 0; j < 100; j++) {
-                send_mouse_report(0, s_local_param.x_dir * step, 0, 0);
-                vTaskDelay(50 / portTICK_PERIOD_MS);
-            }
-        }
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-    }
 }
 
 void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
@@ -231,14 +235,14 @@ void esp_bt_hidd_cb(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *param)
         }
         break;
     case ESP_HIDD_SEND_REPORT_EVT:
-       //  if (param->send_report.status == ESP_HIDD_SUCCESS) {
-       //      ESP_LOGI(TAG, "ESP_HIDD_SEND_REPORT_EVT id:0x%02x, type:%d", param->send_report.report_id,
-       //               param->send_report.report_type);
-       //  } else {
-       //      ESP_LOGE(TAG, "ESP_HIDD_SEND_REPORT_EVT id:0x%02x, type:%d, status:%d, reason:%d",
-       //               param->send_report.report_id, param->send_report.report_type, param->send_report.status,
-       //               param->send_report.reason);
-       //  }
+        if (param->send_report.status == ESP_HIDD_SUCCESS) {
+            ESP_LOGI(TAG, "ESP_HIDD_SEND_REPORT_EVT id:0x%02x, type:%d", param->send_report.report_id,
+                     param->send_report.report_type);
+        } else {
+            ESP_LOGE(TAG, "ESP_HIDD_SEND_REPORT_EVT id:0x%02x, type:%d, status:%d, reason:%d",
+                     param->send_report.report_id, param->send_report.report_type, param->send_report.status,
+                     param->send_report.reason);
+        }
         break;
     case ESP_HIDD_REPORT_ERR_EVT:
         ESP_LOGI(TAG, "ESP_HIDD_REPORT_ERR_EVT");
