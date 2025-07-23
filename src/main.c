@@ -2,6 +2,10 @@
  * SPDX-FileCopyrightText: 2021-2024 Espressif Systems (Shanghai) CO LTD
  *
  * SPDX-License-Identifier: Unlicense OR CC0-1.0
+ * 
+ * 
+ * 
+ *  pio run --target upload; git-all; pio device monitor -b 115200
  */
 #include "header.h"
 
