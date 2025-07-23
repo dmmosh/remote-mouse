@@ -32,12 +32,14 @@ void mouse_move_task(void *pvParameters)
         vrx = (vrx>= -2 && vrx <= 2) ? 0 : (vrx>=14 || vrx <=-11) ? same_sign(20,vrx) : vrx;
         vry = (vry>= -2 && vry <= 2) ? 0 : (vry>=14 || vry <=-11) ? same_sign(20,vry) : vry;
         
+        vrx /=2;
+        vry /=2;
 
 
         sw = !gpio_get_level(SW);
         //ESP_LOGI(TAG, "vrx: %i, vry: %i, sw: %i", vrx,vry,sw);
         send_mouse_report(sw,-vrx,-vry,0, protocol_mode);
-        vTaskDelay(pdMS_TO_TICKS(10));
+        vTaskDelay(pdMS_TO_TICKS(9));
     }
 }
 // send the buttons, change in x, and change in y
