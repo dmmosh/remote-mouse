@@ -9,14 +9,14 @@ void mouse_move_task(void *pvParameters)
     ESP_LOGI(TAG, "starting");
     for (;;) {
         s_local_param.x_dir = 1;
-        int8_t step = 10;
+        int8_t step = 1;
         for (int i = 0; i < 2; i++) {
             xSemaphoreTake(s_local_param.mouse_mutex, portMAX_DELAY);
             s_local_param.x_dir *= -1;
             xSemaphoreGive(s_local_param.mouse_mutex);
-            for (int j = 0; j < 100; j++) {
+            for (int j = 0; j < 500; j++) {
                 send_mouse_report(0, s_local_param.x_dir * step, 0, 0);
-                vTaskDelay(50 / portTICK_PERIOD_MS);
+                vTaskDelay(2 / portTICK_PERIOD_MS);
             }
         }
         vTaskDelay(1000 / portTICK_PERIOD_MS);
