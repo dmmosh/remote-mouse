@@ -28,7 +28,7 @@
 #define VRY ADC2_CHANNEL_5 // pin 12
 #define SW 14 
 #define TRANSISTOR 27 
-#define GPIO_OUTPUT_PINS ((1ULL << TRANSISTOR)) //outputs power to pin 27 
+#define GPIO_OUTPUT_PINS ((1ULL << TRANSISTOR) | (1ULL << LED)) //outputs power to pin 27 
 #define GPIO_INPUT_PINS ((1ULL<< SW))
 #define ON 1
 #define OFF 0

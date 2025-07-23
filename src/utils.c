@@ -23,6 +23,8 @@ void mouse_move_task(void *pvParameters)
         //         vTaskDelay(10 / portTICK_PERIOD_MS);
         //     }
         // }
+
+        
         int vrx, vry, sw;
         adc2_get_raw(VRX, ADC_WIDTH_BIT_12, &vrx);
         adc2_get_raw(VRY, ADC_WIDTH_BIT_12, &vry);
@@ -32,8 +34,8 @@ void mouse_move_task(void *pvParameters)
         vrx = (vrx>= -2 && vrx <= 2) ? 0 : (vrx>=14 || vrx <=-11) ? same_sign(20,vrx) : vrx;
         vry = (vry>= -2 && vry <= 2) ? 0 : (vry>=14 || vry <=-11) ? same_sign(20,vry) : vry;
         
-        vrx /=2;
-        vry /=2;
+        vrx /=4;
+        vry /=4;
 
 
         sw = !gpio_get_level(SW);
@@ -64,7 +66,7 @@ void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel, uint8_t pr
         buffer[1] = dx;
         buffer[2] = dy;
     } 
-    ESP_LOGI("REQ STATUS: ", "%i", esp_bt_hid_device_send_report(ESP_HIDD_REPORT_TYPE_INTRDATA, report_id, report_size, buffer));
+    esp_bt_hid_device_send_report(ESP_HIDD_REPORT_TYPE_INTRDATA, report_id, report_size, buffer);
 }
 
 inline int same_sign(const int num, const int sign){
@@ -243,6 +245,7 @@ void esp_bt_hidd_cb(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *param)
                          param->open.bd_addr[1], param->open.bd_addr[2], param->open.bd_addr[3], param->open.bd_addr[4],
                          param->open.bd_addr[5]);
                 bt_app_task_start_up();
+                gpio_set_level(LED,ON);
                 ESP_LOGI(TAG, "making self non-discoverable and non-connectable.");
                 esp_bt_gap_set_scan_mode(ESP_BT_NON_CONNECTABLE, ESP_BT_NON_DISCOVERABLE);
             } else {
@@ -260,6 +263,7 @@ void esp_bt_hidd_cb(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *param)
             } else if (param->close.conn_status == ESP_HIDD_CONN_STATE_DISCONNECTED) {
                 ESP_LOGI(TAG, "disconnected!");
                 bt_app_task_shut_down();
+                gpio_set_level(LED,OFF);
                 ESP_LOGI(TAG, "making self discoverable and connectable again.");
                 esp_bt_gap_set_scan_mode(ESP_BT_CONNECTABLE, ESP_BT_GENERAL_DISCOVERABLE);
             } else {
