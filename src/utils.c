@@ -37,7 +37,7 @@ void mouse_move_task(void *pvParameters)
         sw = !gpio_get_level(SW);
         //ESP_LOGI(TAG, "vrx: %i, vry: %i, sw: %i", vrx,vry,sw);
         send_mouse_report(sw,-vrx,-vry,0, protocol_mode);
-        vTaskDelay(pdMS_TO_TICKS(9));
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 // send the buttons, change in x, and change in y
@@ -61,8 +61,8 @@ void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel, uint8_t pr
         buffer[0] = buttons;
         buffer[1] = dx;
         buffer[2] = dy;
-    }
-    esp_bt_hid_device_send_report(ESP_HIDD_REPORT_TYPE_INTRDATA, report_id, report_size, buffer);
+    } 
+    ESP_LOGI("REQ STATUS: ", "%i", esp_bt_hid_device_send_report(ESP_HIDD_REPORT_TYPE_INTRDATA, report_id, report_size, buffer));
 }
 
 inline int same_sign(const int num, const int sign){
