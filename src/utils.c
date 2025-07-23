@@ -19,7 +19,7 @@ void mouse_move_task(void *pvParameters)
         //         vTaskDelay(10 / portTICK_PERIOD_MS);
         //     }
         // }
-        uint16_t vrx, vry, sw;
+        int vrx, vry, sw;
         adc2_get_raw(VRX, ADC_WIDTH_BIT_12, &vrx);
         adc2_get_raw(VRY, ADC_WIDTH_BIT_12, &vry);
         sw = gpio_get_level(SW);
