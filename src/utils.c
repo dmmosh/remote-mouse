@@ -25,8 +25,8 @@ void mouse_move_task(void *pvParameters)
         vrx = -11 + vrx/128;
         vry = -11 + vry/128;
         
-        vrx = (vrx>= -2 && vrx <= 2) ? 0 : (vrx>=14 || vrx <=-11) ? vrx+vrx/2 : vrx;
-        vry = (vry>= -2 && vry <= 2) ? 0 : (vry>=14 || vry <=-11) ? vry+vry/2 : vry;
+        vrx = (vrx>= -2 && vrx <= 2) ? 0 : (vrx>=14 || vrx <=-11) ? same_sign(20,vrx) : vrx;
+        vry = (vry>= -2 && vry <= 2) ? 0 : (vry>=14 || vry <=-11) ? same_sign(20,vry) : vry;
         
 
 
@@ -37,8 +37,8 @@ void mouse_move_task(void *pvParameters)
     }
 }
 
-inline void joystick(){
-
+inline int same_sign(const int num, const int sign){
+    return (sign < 0) ? -abs(num) : abs(num);
 }
 
 
