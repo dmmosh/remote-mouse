@@ -37,6 +37,7 @@ typedef struct {
     esp_hidd_app_param_t app_param;
     esp_hidd_qos_param_t both_qos;
     uint8_t protocol_mode;
+    SemaphoreHandle_t mouse_mutex;
     TaskHandle_t mouse_task_hdl;
     uint8_t buffer[REPORT_BUFFER_SIZE];
     int8_t x_dir;
