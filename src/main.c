@@ -14,33 +14,37 @@ local_param_t s_local_param = {0};
  // HID report descriptor for a generic mouse. The contents of the report are:
  // 3 buttons, moving information for X and Y cursors, information for a wheel.
 uint8_t hid_mouse_descriptor[] = {
-    0x05, 0x01,        // Usage Page (Generic Desktop)
-    0x09, 0x02,        // Usage (Mouse)
-    0xA1, 0x01,        // Collection (Application)
-    0x09, 0x01,        // Usage (Pointer)
-    0xA1, 0x00,        // Collection (Physical)
-    0x05, 0x09,        // Usage Page (Buttons)
-    0x19, 0x01,        // Usage Minimum (Button 1)
-    0x29, 0x03,        // Usage Maximum (Button 3)
-    0x15, 0x00,        // Logical Minimum (0)
-    0x25, 0x01,        // Logical Maximum (1)
-    0x95, 0x03,        // Report Count (3)
-    0x75, 0x01,        // Report Size (1)
-    0x81, 0x02,        // Input (Data, Variable, Absolute) ;3 button bits
-    0x95, 0x01,        // Report Count (1)
-    0x75, 0x05,        // Report Size (5)
-    0x81, 0x03,        // Input (Constant) ;5 bit padding
-    0x05, 0x01,        // Usage Page (Generic Desktop)
-    0x09, 0x30,        // Usage (X)
-    0x09, 0x31,        // Usage (Y)
-    0x09, 0x38,        // Usage (Wheel)
-    0x15, 0x81,        // Logical Minimum (-127)
-    0x25, 0x7F,        // Logical Maximum (127)
-    0x75, 0x08,        // Report Size (8)
-    0x95, 0x03,        // Report Count (3)
-    0x81, 0x06,        // Input (Data, Variable, Relative) ;3 bytes (X,Y,Wheel)
-    0xC0,              // End Collection
-    0xC0               // End Collection
+     0x05, 0x01,                    // USAGE_PAGE (Generic Desktop)
+     0x09, 0x02,                    // USAGE (Mouse)
+     0xa1, 0x01,                    // COLLECTION (Application)
+ 
+     0x09, 0x01,                    //   USAGE (Pointer)
+     0xa1, 0x00,                    //   COLLECTION (Physical)
+ 
+     0x05, 0x09,                    //     USAGE_PAGE (Button)
+     0x19, 0x01,                    //     USAGE_MINIMUM (Button 1)
+     0x29, 0x03,                    //     USAGE_MAXIMUM (Button 3)
+     0x15, 0x00,                    //     LOGICAL_MINIMUM (0)
+     0x25, 0x01,                    //     LOGICAL_MAXIMUM (1)
+     0x95, 0x03,                    //     REPORT_COUNT (3)
+     0x75, 0x01,                    //     REPORT_SIZE (1)
+     0x81, 0x02,                    //     INPUT (Data,Var,Abs)
+     0x95, 0x01,                    //     REPORT_COUNT (1)
+     0x75, 0x05,                    //     REPORT_SIZE (5)
+     0x81, 0x03,                    //     INPUT (Cnst,Var,Abs)
+ 
+     0x05, 0x01,                    //     USAGE_PAGE (Generic Desktop)
+     0x09, 0x30,                    //     USAGE (X)
+     0x09, 0x31,                    //     USAGE (Y)
+     0x09, 0x38,                    //     USAGE (Wheel)
+     0x15, 0x81,                    //     LOGICAL_MINIMUM (-127)
+     0x25, 0x7f,                    //     LOGICAL_MAXIMUM (127)
+     0x75, 0x08,                    //     REPORT_SIZE (8)
+     0x95, 0x03,                    //     REPORT_COUNT (3)
+     0x81, 0x06,                    //     INPUT (Data,Var,Rel)
+ 
+     0xc0,                          //   END_COLLECTION
+     0xc0                           // END_COLLECTION
  };
 
 
@@ -100,7 +104,7 @@ uint8_t hid_mouse_descriptor[] = {
      ESP_LOGI(TAG, "setting cod major, peripheral");
      esp_bt_cod_t cod = {0};
      cod.major = ESP_BT_COD_MAJOR_DEV_PERIPHERAL;
-     //cod.minor = ESP_BT_COD_MINOR_PERIPHERAL_POINTING;
+     cod.minor = ESP_HID_CLASS_MIC;
      esp_bt_gap_set_cod(cod, ESP_BT_SET_COD_MAJOR_MINOR);
  
      vTaskDelay(2000 / portTICK_PERIOD_MS);
@@ -135,6 +139,8 @@ uint8_t hid_mouse_descriptor[] = {
      esp_bt_pin_code_t pin_code;
      esp_bt_gap_set_pin(pin_type, 0, pin_code);
 
+     esp_bt_io_cap_t iocap = ESP_BT_IO_CAP_NONE;  // No input, no output
+    esp_bt_gap_set_security_param(ESP_BT_SP_IOCAP_MODE, &iocap, sizeof(uint8_t));
  
      ESP_LOGI(TAG, "Own address:[%s]", bda2str((uint8_t *)esp_bt_dev_get_address(), bda_str, sizeof(bda_str)));
      ESP_LOGI(TAG, "exiting");
