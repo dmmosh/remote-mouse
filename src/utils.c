@@ -31,7 +31,7 @@ void mouse_move_task(void *pvParameters)
 
 
         sw = !gpio_get_level(SW);
-        ESP_LOGI(TAG, "vrx: %i, vry: %i, sw: %i", vrx,vry,sw);
+        //ESP_LOGI(TAG, "vrx: %i, vry: %i, sw: %i", vrx,vry,sw);
         send_mouse_report(sw,-vrx,-vry,0);
         vTaskDelay(10 / portTICK_PERIOD_MS);
     }
@@ -263,14 +263,14 @@ void esp_bt_hidd_cb(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *param)
         }
         break;
     case ESP_HIDD_SEND_REPORT_EVT:
-        if (param->send_report.status == ESP_HIDD_SUCCESS) {
-            ESP_LOGI(TAG, "ESP_HIDD_SEND_REPORT_EVT id:0x%02x, type:%d", param->send_report.report_id,
-                     param->send_report.report_type);
-        } else {
-            ESP_LOGE(TAG, "ESP_HIDD_SEND_REPORT_EVT id:0x%02x, type:%d, status:%d, reason:%d",
-                     param->send_report.report_id, param->send_report.report_type, param->send_report.status,
-                     param->send_report.reason);
-        }
+        // if (param->send_report.status == ESP_HIDD_SUCCESS) {
+        //     ESP_LOGI(TAG, "ESP_HIDD_SEND_REPORT_EVT id:0x%02x, type:%d", param->send_report.report_id,
+        //              param->send_report.report_type);
+        // } else {
+        //     ESP_LOGE(TAG, "ESP_HIDD_SEND_REPORT_EVT id:0x%02x, type:%d, status:%d, reason:%d",
+        //              param->send_report.report_id, param->send_report.report_type, param->send_report.status,
+        //              param->send_report.reason);
+        // }
         break;
     case ESP_HIDD_REPORT_ERR_EVT:
         ESP_LOGI(TAG, "ESP_HIDD_REPORT_ERR_EVT");
