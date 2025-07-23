@@ -8,7 +8,7 @@ void mouse_move_task(void *pvParameters)
     const char *TAG = "mouse_move_task";
     uint8_t protocol_mode = s_local_param.protocol_mode;
     xSemaphoreGive(s_local_param.mouse_mutex);
-
+    connected = true;
 
     ESP_LOGI(TAG, "starting");
     for (;;) {
@@ -41,6 +41,7 @@ void mouse_move_task(void *pvParameters)
         send_mouse_report(sw,-vrx,-vry,0, protocol_mode);
         vTaskDelay(pdMS_TO_TICKS(9));
     }
+    connected = false;
 }
 // send the buttons, change in x, and change in y
 void send_mouse_report(uint8_t buttons, char dx, char dy, char wheel, uint8_t protocol_mode)
@@ -242,9 +243,11 @@ void esp_bt_hidd_cb(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *param)
                 ESP_LOGI(TAG, "connected to %02x:%02x:%02x:%02x:%02x:%02x", param->open.bd_addr[0],
                          param->open.bd_addr[1], param->open.bd_addr[2], param->open.bd_addr[3], param->open.bd_addr[4],
                          param->open.bd_addr[5]);
-                bt_app_task_start_up();
+                if(!connected){
                 ESP_LOGI(TAG, "making self non-discoverable and non-connectable.");
+                bt_app_task_start_up();
                 esp_bt_gap_set_scan_mode(ESP_BT_NON_CONNECTABLE, ESP_BT_NON_DISCOVERABLE);
+                }
             } else {
                 ESP_LOGE(TAG, "unknown connection status");
             }
