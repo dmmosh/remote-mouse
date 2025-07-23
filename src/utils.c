@@ -26,6 +26,41 @@ void mouse_move_task(void *pvParameters)
     }
 }
 
+void bt_app_task_start_up(void)
+{
+    for (;;) {
+    s_local_param.x_dir = 1;
+        int8_t step = 10;
+        for (int i = 0; i < 2; i++) {
+            s_local_param.x_dir *= -1;
+            for (int j = 0; j < 100; j++) {
+                send_mouse_report(0, s_local_param.x_dir * step, 0, 0);
+                vTaskDelay(50 / portTICK_PERIOD_MS);
+            }
+        }
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
+    }
+    // s_local_param.mouse_mutex = xSemaphoreCreateMutex();
+    // memset(s_local_param.buffer, 0, REPORT_BUFFER_SIZE);
+    // xTaskCreate(mouse_move_task, "mouse_move_task", 2 * 1024, NULL, configMAX_PRIORITIES - 3, &s_local_param.mouse_task_hdl);
+    // return;
+}
+
+void bt_app_task_shut_down(void)
+{
+    if (s_local_param.mouse_task_hdl) {
+        vTaskDelete(s_local_param.mouse_task_hdl);
+        s_local_param.mouse_task_hdl = NULL;
+    }
+
+    if (s_local_param.mouse_mutex) {
+        vSemaphoreDelete(s_local_param.mouse_mutex);
+        s_local_param.mouse_mutex = NULL;
+    }
+    return;
+}
+
+
 
 
 char *bda2str(esp_bd_addr_t bda, char *str, size_t size)
@@ -153,29 +188,6 @@ void esp_bt_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
     }
     return;
 }
-
-void bt_app_task_start_up(void)
-{
-    s_local_param.mouse_mutex = xSemaphoreCreateMutex();
-    memset(s_local_param.buffer, 0, REPORT_BUFFER_SIZE);
-    xTaskCreate(mouse_move_task, "mouse_move_task", 2 * 1024, NULL, configMAX_PRIORITIES - 3, &s_local_param.mouse_task_hdl);
-    return;
-}
-
-void bt_app_task_shut_down(void)
-{
-    if (s_local_param.mouse_task_hdl) {
-        vTaskDelete(s_local_param.mouse_task_hdl);
-        s_local_param.mouse_task_hdl = NULL;
-    }
-
-    if (s_local_param.mouse_mutex) {
-        vSemaphoreDelete(s_local_param.mouse_mutex);
-        s_local_param.mouse_mutex = NULL;
-    }
-    return;
-}
-
 void esp_bt_hidd_cb(esp_hidd_cb_event_t event, esp_hidd_cb_param_t *param)
 {
     static const char *TAG = "esp_bt_hidd_cb";
